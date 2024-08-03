@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/setup.sh
