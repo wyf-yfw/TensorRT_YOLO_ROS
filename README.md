@@ -1,6 +1,15 @@
 # YOLOv8 目标检测模型转 TensorRT
 
-![_zidane](output/_zidane.jpg)
+## 环境
+ubuntu 20.04 + ros noetic
+
+opencv 4.8.0
+
+cuda 12.1 + cudnn 8.9.7
+
+TensorRT 8.6.1.6
+
+cmake 3.22.1
 
 ## 导出ONNX模型
 

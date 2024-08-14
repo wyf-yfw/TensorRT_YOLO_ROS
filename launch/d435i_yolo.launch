@@ -109,5 +109,5 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
   <!-- 启动rviz -->
 <!--   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_description)/rviz/urdf.rviz" required="true"/> -->
-  <node name="yolo_node" pkg="tensorrt-yolo" type="yolo_node" args="-d" output="screen"/>
+  <node name="yolo_node" pkg="tensorrt_yolo" type="d_camera_infer_node" output="screen"/>
 </launch>

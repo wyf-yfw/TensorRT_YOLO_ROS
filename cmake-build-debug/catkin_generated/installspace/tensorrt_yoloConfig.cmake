@@ -177,7 +177,7 @@ foreach(library ${libraries})
   endif()
 endforeach()
 
-set(tensorrt_yolo_EXPORTED_TARGETS "")
+set(tensorrt_yolo_EXPORTED_TARGETS "tensorrt_yolo_generate_messages_cpp;tensorrt_yolo_generate_messages_eus;tensorrt_yolo_generate_messages_lisp;tensorrt_yolo_generate_messages_nodejs;tensorrt_yolo_generate_messages_py")
 # create dummy targets for exported code generation targets to make life of users easier
 foreach(t ${tensorrt_yolo_EXPORTED_TARGETS})
   if(NOT TARGET ${t})
@@ -214,7 +214,7 @@ foreach(depend ${depends})
   _list_append_deduplicate(tensorrt_yolo_EXPORTED_TARGETS ${${tensorrt_yolo_dep}_EXPORTED_TARGETS})
 endforeach()
 
-set(pkg_cfg_extras "")
+set(pkg_cfg_extras "tensorrt_yolo-msg-extras.cmake")
 foreach(extra ${pkg_cfg_extras})
   if(NOT IS_ABSOLUTE ${extra})
     set(extra ${tensorrt_yolo_DIR}/${extra})

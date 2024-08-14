@@ -12,13 +12,14 @@
 #include <image_transport/image_transport.h>
 #include <opencv2/opencv.hpp>
 #include <chrono>
-#include "/home/wyf/catkin_ws/devel/include/tensorrt_yolo/Pixel3dPoint.h"
 #include <geometry_msgs/Point.h>
 #include <message_filters/subscriber.h>
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 #include <boost/thread/thread.hpp>
-        
+#include <infer_result.h>
+#include <results.h>
+
 DCameraInfer::DCameraInfer(ros::NodeHandle& nh):
 frame_count_(0),
 start_time_(std::chrono::high_resolution_clock::now()),
@@ -40,7 +41,7 @@ int DCameraInfer::run(cv::Mat& img){
     if (img.empty()) return -1;
     auto start = std::chrono::system_clock::now();
 
-    result_ = inference(img);
+    results_msg_ = inference(img);
     auto end = std::chrono::system_clock::now();
     int cost = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     // ROS_INFO("cost: %d ms.", cost);
@@ -57,9 +58,10 @@ void DCameraInfer::image_callback(const sensor_msgs::ImageConstPtr& rbg_msg, con
     cv::Mat img = cv_bridge::toCvShare(rbg_msg, sensor_msgs::image_encodings::BGR8)->image;
     //推理图像
     run(img);
-    for(int i = 0;i<result_.size();i++) {
-        int pixel_x = round((result_[i].bbox[0] + result_[i].bbox[2]) / 2.0);
-        int pixel_y = round((result_[i].bbox[1] + result_[i].bbox[3]) / 2.0);
+
+    for(int i = 0;i<results_msg_.results.size();i++) {
+        int pixel_x = round((results_msg_.results[i].bbox[0] + results_msg_.results[i].bbox[2]) / 2.0);
+        int pixel_y = round((results_msg_.results[i].bbox[1] + results_msg_.results[i].bbox[3]) / 2.0);
         if (pixel_x < 0 || pixel_y < 0)
         {
             ROS_WARN("Pixel coordinates not set. Skipping depth image processing.");
@@ -89,18 +91,18 @@ void DCameraInfer::image_callback(const sensor_msgs::ImageConstPtr& rbg_msg, con
             double X = (pixel_x - cx) * depth_m / fx;
             double Y = -(pixel_y - cy) * depth_m / fy;
             double Z = depth_m;
-            result_[i].coordinate[0] = X;
-            result_[i].coordinate[1] = Y;
-            result_[i].coordinate[2] = Z;
-            // ROS_INFO("Depth at pixel (%d, %d): %f mm", pixel_x, pixel_y, depth_value);
-            // ROS_INFO("Published 3D coordinates: X = %f m, Y = %f m, Z = %f m", X, Y, Z);
-            draw_image(img,result_[i]);
+            results_msg_.results[i].coordinate[0] = X;
+            results_msg_.results[i].coordinate[1] = Y;
+            results_msg_.results[i].coordinate[2] = Z;
+            draw_image(img,results_msg_.results[i]);
         }
         catch (cv_bridge::Exception& e)
         {
             ROS_ERROR("cv_bridge exception: %s", e.what());
         }
     }
+    results_pub_.publish(results_msg_);
+
     cv::Point textOrg(50, 50);
 
     // 设置字体类型、大小、颜色等
@@ -132,7 +134,7 @@ void DCameraInfer::image_callback(const sensor_msgs::ImageConstPtr& rbg_msg, con
 
 
 
-void DCameraInfer::draw_image(cv::Mat& img, Detection& inferResult){
+void DCameraInfer::draw_image(cv::Mat& img, tensorrt_yolo::infer_result& inferResult){
     // 在图像上绘制检测结果
 
     cv::Scalar bboxColor((inferResult.classId * 30 + 123) % 255, (inferResult.classId * 20 + 78) % 255 , (inferResult.classId + 478) % 255); // 随机颜色

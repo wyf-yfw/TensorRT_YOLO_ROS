@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/wyf/catkin_ws/src/tensorrt_yolo/msg/Pixel3dPoint.msg"
+messages_str = "/home/wyf/catkin_ws/src/tensorrt_yolo/msg/infer_result.msg;/home/wyf/catkin_ws/src/tensorrt_yolo/msg/results.msg"
 services_str = ""
 pkg_name = "tensorrt_yolo"
 dependencies_str = "std_msgs"

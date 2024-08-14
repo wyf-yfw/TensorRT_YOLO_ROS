@@ -1,4 +1,4 @@
-/snap/clion/284/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/284/bin/ninja/linux/x64/ninja -G Ninja -S /home/wyf/catkin_ws/src/tensorrt_yolo -B /home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug
+/snap/clion/289/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/289/bin/ninja/linux/x64/ninja -G Ninja -S /home/wyf/catkin_ws/src/tensorrt_yolo -B /home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug
 CMake Warning (dev) at /usr/lib/x86_64-linux-gnu/cmake/pcl/PCLConfig.cmake:152 (find_package):
   Policy CMP0144 is not set: find_package uses upper-case <PACKAGENAME>_ROOT
   variables.  Run "cmake --help-policy CMP0144" for policy details.  Use the
@@ -71,7 +71,7 @@ but this file does not exist.  Possible reasons include:
    "/usr/lib/cmake/vtk-7.1/VTKTargets.cmake"
 but not all the files it references.
 
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (USB_10)
   does not match the name of the calling package (OpenNI).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -85,7 +85,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- OpenNI found (include: /usr/include/ni, lib: /usr/lib/libOpenNI.so)
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (USB_10)
   does not match the name of the calling package (OpenNI2).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -101,7 +101,7 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 -- OpenNI2 found (include: /usr/include/openni2, lib: /usr/lib/libOpenNI2.so)
 ** WARNING ** io features related to pcap will be disabled
 ** WARNING ** io features related to png will be disabled
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (libusb-1.0)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -114,7 +114,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 ** WARNING ** io features related to libusb-1.0 will be disabled
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (USB_10)
   does not match the name of the calling package (OpenNI).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -128,7 +128,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- OpenNI found (include: /usr/include/ni, lib: /usr/lib/libOpenNI.so)
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (USB_10)
   does not match the name of the calling package (OpenNI2).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -160,7 +160,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- QHULL found (include: /usr/include, lib: optimized;/usr/lib/x86_64-linux-gnu/libqhull.so;debug;/usr/lib/x86_64-linux-gnu/libqhull.so)
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (USB_10)
   does not match the name of the calling package (OpenNI).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -175,7 +175,7 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- OpenNI found (include: /usr/include/ni, lib: /usr/lib/libOpenNI.so)
 -- looking for PCL_COMMON
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_COMMON)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -186,7 +186,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_KDTREE
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_KDTREE)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -197,7 +197,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_OCTREE
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_OCTREE)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -208,7 +208,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_SEARCH
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_SEARCH)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -219,7 +219,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_SAMPLE_CONSENSUS
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_SAMPLE_CONSENSUS) does not match the name of the calling package
   (PCL).  This can lead to problems in calling code that expects
@@ -231,7 +231,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_FILTERS
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_FILTERS) does not match the name of the calling package (PCL).  This
   can lead to problems in calling code that expects `find_package` result
@@ -242,7 +242,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_2D
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_2D)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -253,7 +253,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_GEOMETRY
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_GEOMETRY) does not match the name of the calling package (PCL).  This
   can lead to problems in calling code that expects `find_package` result
@@ -264,7 +264,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_IO
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_IO)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -275,7 +275,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_FEATURES
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_FEATURES) does not match the name of the calling package (PCL).  This
   can lead to problems in calling code that expects `find_package` result
@@ -286,7 +286,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_ML
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_ML)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -297,7 +297,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_SEGMENTATION
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_SEGMENTATION) does not match the name of the calling package (PCL).
   This can lead to problems in calling code that expects `find_package`
@@ -308,7 +308,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_VISUALIZATION
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_VISUALIZATION) does not match the name of the calling package (PCL).
   This can lead to problems in calling code that expects `find_package`
@@ -319,7 +319,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_SURFACE
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_SURFACE) does not match the name of the calling package (PCL).  This
   can lead to problems in calling code that expects `find_package` result
@@ -330,7 +330,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_REGISTRATION
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_REGISTRATION) does not match the name of the calling package (PCL).
   This can lead to problems in calling code that expects `find_package`
@@ -341,7 +341,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_KEYPOINTS
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_KEYPOINTS) does not match the name of the calling package (PCL).  This
   can lead to problems in calling code that expects `find_package` result
@@ -352,7 +352,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_TRACKING
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_TRACKING) does not match the name of the calling package (PCL).  This
   can lead to problems in calling code that expects `find_package` result
@@ -363,7 +363,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_RECOGNITION
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_RECOGNITION) does not match the name of the calling package (PCL).
   This can lead to problems in calling code that expects `find_package`
@@ -374,7 +374,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_STEREO
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_STEREO)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -385,7 +385,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_APPS
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_APPS)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -396,7 +396,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_IN_HAND_SCANNER
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_IN_HAND_SCANNER) does not match the name of the calling package (PCL).
   This can lead to problems in calling code that expects `find_package`
@@ -407,7 +407,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_POINT_CLOUD_EDITOR
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_POINT_CLOUD_EDITOR) does not match the name of the calling package
   (PCL).  This can lead to problems in calling code that expects
@@ -419,7 +419,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_OUTOFCORE
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args`
   (PCL_OUTOFCORE) does not match the name of the calling package (PCL).  This
   can lead to problems in calling code that expects `find_package` result
@@ -430,7 +430,7 @@ Call Stack (most recent call first):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 -- looking for PCL_PEOPLE
-CMake Warning (dev) at /snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
+CMake Warning (dev) at /snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindPackageHandleStandardArgs.cmake:438 (message):
   The package name passed to `find_package_handle_standard_args` (PCL_PEOPLE)
   does not match the name of the calling package (PCL).  This can lead to
   problems in calling code that expects `find_package` result variables
@@ -502,7 +502,8 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 -- catkin 0.8.10
 -- BUILD_SHARED_LIBS is on
 -- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
-CMake Warning (dev) at CMakeLists.txt:33 (find_package):
+-- tensorrt_yolo: 2 messages, 0 services
+CMake Warning (dev) at CMakeLists.txt:42 (find_package):
   Policy CMP0146 is not set: The FindCUDA module is removed.  Run "cmake
   --help-policy CMP0146" for policy details.  Use the cmake_policy command to
   set the policy and suppress this warning.
@@ -510,6 +511,6 @@ CMake Warning (dev) at CMakeLists.txt:33 (find_package):
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 Embed_platform off
--- Configuring done (1.2s)
+-- Configuring done (1.3s)
 -- Generating done (0.1s)
 -- Build files have been written to: /home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug

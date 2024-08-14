@@ -20,6 +20,15 @@ find_package(catkin REQUIRED COMPONENTS
         message_generation
 )
 
+add_message_files(
+        FILES
+        infer_result.msg
+        results.msg
+)
+generate_messages(
+        DEPENDENCIES
+        std_msgs
+)
 
 catkin_package(
         INCLUDE_DIRS include
@@ -92,4 +101,3 @@ target_link_libraries(image_infer_node
         yolo_infer
         ${catkin_LIBRARIES}
 )
-

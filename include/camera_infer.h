@@ -30,5 +30,8 @@ protected:
     image_transport::ImageTransport it_;
     ros::NodeHandle& nh_;
     std::vector<Detection> result_;
+    tensorrt_yolo::results results_msg_;
+    ros::Publisher results_pub_ = nh_.advertise<tensorrt_yolo::results>("infer_results", 10);
+
 };
 #endif //CAMERA_INFER_H

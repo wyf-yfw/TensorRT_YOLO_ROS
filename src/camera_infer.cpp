@@ -28,8 +28,8 @@ int CameraInfer::run(cv::Mat& img){
     if (img.empty()) return -1;
     auto start = std::chrono::system_clock::now();
 
-    result_ = inference(img);
-
+    results_msg_ = inference(img);
+    results_pub_.publish(results_msg_);
     for (size_t i = 0; i < result_.size(); ++i) {
         Detection& det = result_[i];
         draw_image(img, det);

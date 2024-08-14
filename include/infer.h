@@ -6,7 +6,8 @@
 #include "config.h"
 #include "types.h"
 #include <ros/ros.h>
-#include "/home/wyf/catkin_ws/devel/include/tensorrt_yolo/Pixel3dPoint.h"
+#include <infer_result.h>
+#include <results.h>
 
 using namespace nvinfer1;
 
@@ -22,7 +23,7 @@ public:
         int numClass=kNumClass
     );
     ~YoloDetector();
-    std::vector<Detection> inference(cv::Mat& img);
+    tensorrt_yolo::results inference(cv::Mat& img);
 private:
     void get_engine();
 

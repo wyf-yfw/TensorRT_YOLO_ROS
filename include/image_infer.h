@@ -14,7 +14,7 @@ public:
     ImageInfer(ros::NodeHandle& nh);
     void SaveResult(const cv::Mat& img, int num);
     int run();
-    void draw_image(cv::Mat& img, Detection& inferResult);
+    void draw_image(cv::Mat& img, tensorrt_yolo::infer_result inferResult);
 private:
     const char* imageDir_;
     std::string imagePath_;

@@ -57,12 +57,12 @@ if(NOT generated_file)
 endif()
 
 # Set these up as variables to make reading the generated file easier
-set(CMAKE_COMMAND "/snap/clion/284/bin/cmake/linux/x64/bin/cmake") # path
+set(CMAKE_COMMAND "/snap/clion/289/bin/cmake/linux/x64/bin/cmake") # path
 set(source_file "/home/wyf/catkin_ws/src/tensorrt_yolo/src/postprocess.cu") # path
 set(NVCC_generated_dependency_file "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/CMakeFiles/yolo_infer.dir/src/yolo_infer_generated_postprocess.cu.o.NVCC-depend") # path
 set(cmake_dependency_file "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/CMakeFiles/yolo_infer.dir/src/yolo_infer_generated_postprocess.cu.o.depend") # path
-set(CUDA_make2cmake "/snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindCUDA/make2cmake.cmake") # path
-set(CUDA_parse_cubin "/snap/clion/284/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindCUDA/parse_cubin.cmake") # path
+set(CUDA_make2cmake "/snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindCUDA/make2cmake.cmake") # path
+set(CUDA_parse_cubin "/snap/clion/289/bin/cmake/linux/x64/share/cmake-3.28/Modules/FindCUDA/parse_cubin.cmake") # path
 set(build_cubin OFF) # bool
 set(CUDA_HOST_COMPILER "/usr/bin/cc") # path
 # We won't actually use these variables for now, but we need to set this, in

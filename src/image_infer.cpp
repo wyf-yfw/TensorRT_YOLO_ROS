@@ -23,9 +23,9 @@ int ImageInfer::run(){
 
         auto start = std::chrono::system_clock::now();
 
-        std::vector<Detection> res = inference(img);
-        for(int i = 0; i < res.size();i++) {
-            draw_image(img, res[i]);
+        tensorrt_yolo::results res = inference(img);
+        for(int i = 0; i < res.results.size();i++) {
+            draw_image(img, res.results[i]);
         }
         auto end = std::chrono::system_clock::now();
         int cost = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -43,7 +43,7 @@ void ImageInfer::SaveResult(const cv::Mat& img, int num) {
     cv::imwrite("_" + file_names_[num], img);
 
 }
-void ImageInfer::draw_image(cv::Mat& img, Detection& inferResult){
+void ImageInfer::draw_image(cv::Mat& img, tensorrt_yolo::infer_result inferResult){
     // 在图像上绘制检测结果
 
     cv::Scalar bboxColor((inferResult.classId * 30 + 123) % 255, (inferResult.classId * 20 + 78) % 255 , (inferResult.classId + 478) % 255); // 随机颜色

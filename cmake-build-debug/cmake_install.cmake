@@ -134,7 +134,46 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/tensorrt_yolo/msg" TYPE FILE FILES
+    "/home/wyf/catkin_ws/src/tensorrt_yolo/msg/infer_result.msg"
+    "/home/wyf/catkin_ws/src/tensorrt_yolo/msg/results.msg"
+    )
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/tensorrt_yolo/cmake" TYPE FILE FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/catkin_generated/installspace/tensorrt_yolo-msg-paths.cmake")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/include/tensorrt_yolo")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/roseus/ros" TYPE DIRECTORY FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/share/roseus/ros/tensorrt_yolo")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/common-lisp/ros" TYPE DIRECTORY FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/share/common-lisp/ros/tensorrt_yolo")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gennodejs/ros" TYPE DIRECTORY FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/share/gennodejs/ros/tensorrt_yolo")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  execute_process(COMMAND "/usr/bin/python3" -m compileall "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/lib/python3/dist-packages/tensorrt_yolo")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages" TYPE DIRECTORY FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/lib/python3/dist-packages/tensorrt_yolo")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/catkin_generated/installspace/tensorrt_yolo.pc")
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/tensorrt_yolo/cmake" TYPE FILE FILES "/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/catkin_generated/installspace/tensorrt_yolo-msg-extras.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
