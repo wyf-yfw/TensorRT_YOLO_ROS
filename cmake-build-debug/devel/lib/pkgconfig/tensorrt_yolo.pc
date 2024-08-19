@@ -1,8 +1,0 @@
-prefix=/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel
-
-Name: tensorrt_yolo
-Description: Description of tensorrt_yolo
-Version: 0.0.0
-Cflags: -I/home/wyf/catkin_ws/src/tensorrt_yolo/cmake-build-debug/devel/include -I/home/wyf/catkin_ws/src/tensorrt_yolo/include
-Libs: -L${prefix}/lib -ltensorrt_yolo
-Requires: roscpp sensor_msgs cv_bridge image_transport message_runtime std_msgs

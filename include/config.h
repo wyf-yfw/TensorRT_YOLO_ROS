@@ -9,6 +9,8 @@ extern const std::string trtFile;
 extern const std::string onnxFile;
 extern const std::string rgbImageTopic;
 extern const std::string depthImageTopic;
+extern const std::vector<int> track_classes;
+
 extern const int kGpuId;
 extern const int kNumClass ;
 extern const int kInputH ;

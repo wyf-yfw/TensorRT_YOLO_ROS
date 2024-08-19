@@ -19,22 +19,34 @@
 #include <message_filters/sync_policies/approximate_time.h>
 #include <infer_result.h>
 #include <results.h>
+#include "BYTETracker.h"
 
-class DCameraInfer:public YoloDetector{
+class DCameraInfer:public YoloDetector, public BYTETracker{
 public:
-    DCameraInfer(ros::NodeHandle& nh);
-    int run(cv::Mat& img);
-    void draw_image(cv::Mat& img, tensorrt_yolo::infer_result& inferResult);
+    // 构造函数
+    DCameraInfer(ros::NodeHandle& nh, bool track);
+    // 目标检测
+    int detect(cv::Mat& img, cv::Mat& depth_img);
+    // 追踪
+    void bytetrack(cv::Mat& img, cv::Mat& depth_img);
+    // 回调函数
     void image_callback(const sensor_msgs::ImageConstPtr& rbg_msg, const sensor_msgs::ImageConstPtr& depth_msg);
-
 protected:
+    // 图像subscriber
     image_transport::Subscriber image_sub_;
+    // 帧计数
     int frame_count_;
+    // 起始时间
     std::chrono::high_resolution_clock::time_point start_time_;
     ros::NodeHandle& nh_;
-    std::vector<Detection> result_;
+    // 用于publish的results
     tensorrt_yolo::results results_msg_;
-    ros::Publisher results_pub_ = nh_.advertise<tensorrt_yolo::results>("infer_results", 10);
+    // 目标检测的publisher
+    ros::Publisher detect_results_pub_ = nh_.advertise<tensorrt_yolo::results>("detect_results", 10);
+    // 目标追踪的publisher
+    ros::Publisher track_results_pub_ = nh_.advertise<tensorrt_yolo::results>("track_results", 10);
+    // 追踪开关，默认为false
+    bool track_;
 };
 
 #endif //CAMERA_INFER_H

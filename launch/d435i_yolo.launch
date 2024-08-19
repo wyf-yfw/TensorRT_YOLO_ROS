@@ -105,9 +105,13 @@
 
   <!-- Loads the camera model -->
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find realsense2_description)/urdf/test_d435_camera.urdf.xacro' use_nominal_extrinsics:=false"/>
-
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
   <!-- 启动rviz -->
 <!--   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_description)/rviz/urdf.rviz" required="true"/> -->
-  <node name="yolo_node" pkg="tensorrt_yolo" type="d_camera_infer_node" output="screen"/>
+<!-- 启动目标检测节点 -->
+ <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
+     <!-- 是否启动目标跟踪 -->
+     <param name="track" value="true"/>
+   </node>
 </launch>

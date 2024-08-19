@@ -79,6 +79,14 @@ target_link_libraries(yolo_infer
 add_executable(camera_infer_node
         src/camera_infer.cpp
         include/camera_infer.h
+        include/BYTETracker.h
+        include/BytekalmanFilter.h
+        include/lapjv.h
+        include/STrack.h
+        src/BytekalmanFilter.cpp
+        src/BYTETracker.cpp
+        src/lapjv.cpp
+        src/STrack.cpp
 )
 target_link_libraries(camera_infer_node
         yolo_infer
@@ -87,6 +95,14 @@ target_link_libraries(camera_infer_node
 add_executable(d_camera_infer_node
         src/d_camera_infer.cpp
         include/d_camera_infer.h
+        include/BYTETracker.h
+        include/BytekalmanFilter.h
+        include/lapjv.h
+        include/STrack.h
+        src/BytekalmanFilter.cpp
+        src/BYTETracker.cpp
+        src/lapjv.cpp
+        src/STrack.cpp
 
 )
 target_link_libraries(d_camera_infer_node

@@ -6,10 +6,11 @@
 #include <vector>
 
 const char* imageDir = "/home/wyf/catkin_ws/src/tensorrt_yolo/images"; // 图片文件夹
-const std::string trtFile = "/home/wyf/catkin_ws/src/tensorrt_yolo/onnx_model/yolov8s.plan"; // .plan文件地址，如果不存在将在此处创建.plan文件
-const std::string onnxFile = "/home/wyf/catkin_ws/src/tensorrt_yolo/onnx_model/yolov8s.onnx"; //.onnx模型地址
+const std::string trtFile = "/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s.plan"; // .plan文件地址，如果不存在将在此处创建.plan文件
+const std::string onnxFile = "/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s.onnx"; //.onnx模型地址
 const std::string rgbImageTopic = "camera/color/image_raw"; //ros中image的topic
 const std::string depthImageTopic = "/camera/depth/image_rect_raw"; //ros中depth image的topic
+const std::vector<int> track_classes = {0};
 const int kGpuId = 0; //显卡id，一张显卡默认为0
 const int kNumClass = 80; //模型中推理种类的数量
 // image的高和宽
