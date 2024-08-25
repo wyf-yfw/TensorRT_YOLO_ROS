@@ -14,6 +14,7 @@
 #include <ros/serialization.h>
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
+
 #include <tensorrt_yolo/InferResult.h>
 
 namespace tensorrt_yolo
@@ -122,12 +123,12 @@ struct MD5Sum< ::tensorrt_yolo::Results_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "b2681add3fd6898c1c0989aee273111b";
+    return "f3fe8151482a7a4b7fed636812edc09f";
   }
 
   static const char* value(const ::tensorrt_yolo::Results_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xb2681add3fd6898cULL;
-  static const uint64_t static_value2 = 0x1c0989aee273111bULL;
+  static const uint64_t static_value1 = 0xf3fe8151482a7a4bULL;
+  static const uint64_t static_value2 = 0x7fed636812edc09fULL;
 };
 
 template<class ContainerAllocator>
@@ -154,7 +155,8 @@ struct Definition< ::tensorrt_yolo::Results_<ContainerAllocator> >
 "int32 classId\n"
 "float32[3] coordinate\n"
 "int32 Id\n"
-"KeyPoint[] kpts\n"
+"float32[] kpts\n"
+"KeyPoint[] vKpts\n"
 "\n"
 "================================================================================\n"
 "MSG: tensorrt_yolo/KeyPoint\n"

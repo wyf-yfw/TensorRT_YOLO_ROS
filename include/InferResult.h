@@ -15,7 +15,7 @@
 #include <ros/builtin_message_traits.h>
 #include <ros/message_operations.h>
 
-#include <tensorrt_yolo/KeyPoint.h>
+#include <KeyPoint.h>
 
 namespace tensorrt_yolo
 {
@@ -30,7 +30,8 @@ struct InferResult_
     , classId(0)
     , coordinate()
     , Id(0)
-    , kpts()  {
+    , kpts()
+    , vKpts()  {
       bbox.assign(0.0);
 
       coordinate.assign(0.0);
@@ -41,7 +42,8 @@ struct InferResult_
     , classId(0)
     , coordinate()
     , Id(0)
-    , kpts(_alloc)  {
+    , kpts(_alloc)
+    , vKpts(_alloc)  {
   (void)_alloc;
       bbox.assign(0.0);
 
@@ -65,8 +67,11 @@ struct InferResult_
    typedef int32_t _Id_type;
   _Id_type Id;
 
-   typedef std::vector< ::tensorrt_yolo::KeyPoint_<ContainerAllocator> , typename std::allocator_traits<ContainerAllocator>::template rebind_alloc< ::tensorrt_yolo::KeyPoint_<ContainerAllocator> >> _kpts_type;
+   typedef std::vector<float, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<float>> _kpts_type;
   _kpts_type kpts;
+
+   typedef std::vector< ::tensorrt_yolo::KeyPoint_<ContainerAllocator> , typename std::allocator_traits<ContainerAllocator>::template rebind_alloc< ::tensorrt_yolo::KeyPoint_<ContainerAllocator> >> _vKpts_type;
+  _vKpts_type vKpts;
 
 
 
@@ -102,7 +107,8 @@ bool operator==(const ::tensorrt_yolo::InferResult_<ContainerAllocator1> & lhs, 
     lhs.classId == rhs.classId &&
     lhs.coordinate == rhs.coordinate &&
     lhs.Id == rhs.Id &&
-    lhs.kpts == rhs.kpts;
+    lhs.kpts == rhs.kpts &&
+    lhs.vKpts == rhs.vKpts;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -159,12 +165,12 @@ struct MD5Sum< ::tensorrt_yolo::InferResult_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "c63fa2b3a2ec8f811ea2cc05a27ccab7";
+    return "504187e05ee572cbf676fa4ca72a57a9";
   }
 
   static const char* value(const ::tensorrt_yolo::InferResult_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xc63fa2b3a2ec8f81ULL;
-  static const uint64_t static_value2 = 0x1ea2cc05a27ccab7ULL;
+  static const uint64_t static_value1 = 0x504187e05ee572cbULL;
+  static const uint64_t static_value2 = 0xf676fa4ca72a57a9ULL;
 };
 
 template<class ContainerAllocator>
@@ -188,7 +194,8 @@ struct Definition< ::tensorrt_yolo::InferResult_<ContainerAllocator> >
 "int32 classId\n"
 "float32[3] coordinate\n"
 "int32 Id\n"
-"KeyPoint[] kpts\n"
+"float32[] kpts\n"
+"KeyPoint[] vKpts\n"
 "\n"
 "================================================================================\n"
 "MSG: tensorrt_yolo/KeyPoint\n"
@@ -219,6 +226,7 @@ namespace serialization
       stream.next(m.coordinate);
       stream.next(m.Id);
       stream.next(m.kpts);
+      stream.next(m.vKpts);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -259,9 +267,15 @@ struct Printer< ::tensorrt_yolo::InferResult_<ContainerAllocator> >
     for (size_t i = 0; i < v.kpts.size(); ++i)
     {
       s << indent << "  kpts[" << i << "]: ";
+      Printer<float>::stream(s, indent + "  ", v.kpts[i]);
+    }
+    s << indent << "vKpts[]" << std::endl;
+    for (size_t i = 0; i < v.vKpts.size(); ++i)
+    {
+      s << indent << "  vKpts[" << i << "]: ";
       s << std::endl;
       s << indent;
-      Printer< ::tensorrt_yolo::KeyPoint_<ContainerAllocator> >::stream(s, indent + "    ", v.kpts[i]);
+      Printer< ::tensorrt_yolo::KeyPoint_<ContainerAllocator> >::stream(s, indent + "    ", v.vKpts[i]);
     }
   }
 };

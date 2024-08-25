@@ -71,6 +71,13 @@ int CameraInfer::detect(cv::Mat& img, cv::Mat& depth_img){
     cv::waitKey(30);
     return 0;
 }
+int CameraInfer::pose(cv::Mat& img){
+    if (img.empty()) return 1;
+    // draw result on image
+    draw_pose_image(img, results_msg_, true, true);
+    cv::imshow("pose", img);
+}
+
 void CameraInfer::bytetrack(cv::Mat& img)
 {
     // 需要跟踪的目标类型

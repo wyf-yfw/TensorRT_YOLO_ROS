@@ -35,5 +35,5 @@ extern const std::string calibrationDataPath ;  // 存放用于 int8 量化校�
 extern const std::vector<std::string> vClassNames;
 extern const double K[9];
 extern std::vector<double> D;
-
+extern const std::vector<std::vector<int>> skeleton;
 #endif  // CONFIG_H

@@ -29,6 +29,7 @@ public:
     CameraInfer(ros::NodeHandle& nh,  bool track, bool depth);
     int detect(cv::Mat& img);
     int detect(cv::Mat& img, cv::Mat& depth_img);
+    int pose(cv::Mat& img);
     void bytetrack(cv::Mat& img);
     void bytetrack(cv::Mat& img, cv::Mat& depth_img);
     void image_callback(const sensor_msgs::ImageConstPtr& msg);
