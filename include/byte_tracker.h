@@ -11,6 +11,8 @@ public:
     int classId;
     float conf;
     cv::Rect_<float> box;
+    std::vector<float> kpts;
+    std::vector<tensorrt_yolo::KeyPoint> vKpts;
 };
 
 
@@ -19,7 +21,7 @@ class BYTEtracker
 public:
     BYTEtracker(int frame_rate = 30, int track_buffer = 30);
 	~BYTEtracker();
-    std::vector<strack> update(std::vector<tensorrt_yolo::InferResult>& objects);
+    std::vector<strack> update(const  std::vector<detect_result>& objects);
     cv::Scalar get_color(int idx);
 	 std::vector<strack*> joint_stracks(std::vector<strack*> &tlista, std::vector<strack> &tlistb);
 	 std::vector<strack> joint_stracks(std::vector<strack> &tlista, std::vector<strack> &tlistb);

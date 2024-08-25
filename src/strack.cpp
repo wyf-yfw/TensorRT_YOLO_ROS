@@ -1,10 +1,14 @@
 #include "strack.h"
+#include <ros/ros.h>
+#include <utility>
 
-strack::strack(std::vector<float> tlwh_, float score, int class_id)
+strack::strack(std::vector<float> tlwh_, float score, int class_id,std::vector<float> kpts, std::vector<tensorrt_yolo::KeyPoint> vKpts)
 {
 	_tlwh.resize(4);
 	_tlwh.assign(tlwh_.begin(), tlwh_.end());
 
+    vKpts_ = std::move(vKpts);
+    kpts_ = std::move(kpts);
 	is_activated = false;
 	track_id = 0;
 	state = TrackState::New;
@@ -56,6 +60,7 @@ void strack::activate(byte_kalman::ByteKalmanFilter &kalman_filter, int frame_id
 	//this->is_activated = true;
 	this->frame_id = frame_id;
 	this->start_frame = frame_id;
+
 }
 
 void strack::re_activate(strack &new_track, int frame_id, bool new_id)
@@ -79,6 +84,8 @@ void strack::re_activate(strack &new_track, int frame_id, bool new_id)
 	this->frame_id = frame_id;
 	this->score = new_track.score;
     this->classId_ = new_track.classId_;
+    this->kpts_ = new_track.kpts_;
+    this->vKpts_ = new_track.vKpts_;
 	if (new_id)
 		this->track_id = next_id();
 }
@@ -105,8 +112,12 @@ void strack::update(strack &new_track, int frame_id)
 	this->state = TrackState::Tracked;
 	this->is_activated = true;
 
-	this->score = new_track.score;
+    // 更新 kpts 和 vKpts
+    this->score = new_track.score;
     this->classId_ = new_track.classId_;
+    this->kpts_ = new_track.kpts_;  // 更新关键点
+    this->vKpts_ = new_track.vKpts_;  // 更新关键点
+
 }
 
 void strack::static_tlwh()

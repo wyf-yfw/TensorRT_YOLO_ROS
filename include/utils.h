@@ -59,6 +59,8 @@ inline void yolo_detece2detect_result(tensorrt_yolo::Results& results_msg_, std:
                       (results_msg_.results[i].bbox[3] - results_msg_.results[i].bbox[1])
         );
         det.box = rect;
+        det.kpts = results_msg_.results[i].kpts;
+        det.vKpts = results_msg_.results[i].vKpts;
         objects.push_back(det);
     }
 }
@@ -66,13 +68,21 @@ inline void yolo_detece2detect_result(tensorrt_yolo::Results& results_msg_, std:
 inline void draw_tracking_id(cv::Mat& img, std::vector<strack>& output_stracks, tensorrt_yolo::Results& results_msg_){
     for (unsigned long i = 0; i < output_stracks.size(); i++)
     {
-
+        tensorrt_yolo::InferResult inf;
+        for(int j = 0;j < 4; j ++){
+            inf.bbox[j] = output_stracks[i].tlbr[j];
+        }
+        inf.conf = output_stracks[i].score;
+        inf.classId = output_stracks[i].classId_;
+        inf.Id = output_stracks[i].track_id;
+        inf.kpts = output_stracks[i].kpts_;
+        inf.vKpts = output_stracks[i].vKpts_;
+        results_msg_.results.push_back(inf);
         std::vector<float> tlwh = output_stracks[i].tlwh;
 
         bool vertical = tlwh[2] / tlwh[3] > 1.6;
         if (tlwh[2] * tlwh[3] > 20 && !vertical)
         {
-            tensorrt_yolo::InferResult inf = results_msg_.results[i];
             cv::Scalar s((inf.classId * 30 + 123) % 255, (inf.classId * 20 + 78) % 255 , (inf.classId + 478) % 255); // 随机颜色
 
             cv::putText(img, cv::format("ID: %d", output_stracks[i].track_id), cv::Point(tlwh[0], tlwh[1] + 20),
@@ -264,6 +274,7 @@ inline void draw_pose_points(cv::Mat& img, tensorrt_yolo::Results results_msg_){
             if (conf < 0.5) continue;
             cv::circle(img, cv::Point(x, y), radius, kptColor, -1);
         }
+        ROS_INFO("%lu", vScaledKpts.size());
         // draw skeleton between key points
         int kpt1_idx, kpt2_idx, kpt1_x, kpt1_y, kpt2_x, kpt2_y;
         float kpt1_conf, kpt2_conf;

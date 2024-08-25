@@ -449,7 +449,7 @@ cv::Scalar BYTEtracker::get_color(int idx)
     return cv::Scalar(37 * idx % 255, 17 * idx % 255, 29 * idx % 255);
 }
 
- std::vector<strack> BYTEtracker::update(std::vector<tensorrt_yolo::InferResult>& objects)
+ std::vector<strack> BYTEtracker::update(const std::vector<detect_result>& objects)
 {
 
 	////////////////// Step 1: Get detections //////////////////
@@ -477,14 +477,16 @@ cv::Scalar BYTEtracker::get_color(int idx)
 		{
 			 std::vector<float> tlbr_;
 			tlbr_.resize(4);
-            tlbr_[0] = objects[i].bbox[0];
-            tlbr_[1] = objects[i].bbox[1];
-            tlbr_[2] = objects[i].bbox[0] + objects[i].bbox[2] - objects[i].bbox[0] ;
-            tlbr_[3] = objects[i].bbox[1] + objects[i].bbox[3] - objects[i].bbox[1];
+            tlbr_[0] = objects[i].box.x;
+            tlbr_[1] = objects[i].box.y;
+            tlbr_[2] = objects[i].box.x + objects[i].box.width;
+            tlbr_[3] = objects[i].box.y + objects[i].box.height;
 
             float score = objects[i].conf;
             int classid = objects[i].classId; // 提取classid
-			strack strack(strack::tlbr_to_tlwh(tlbr_), score, classid);
+            std::vector<float> kpts = objects[i].kpts;
+            std::vector<tensorrt_yolo::KeyPoint> vKpts = objects[i].vKpts;
+			strack strack(strack::tlbr_to_tlwh(tlbr_), score, classid, kpts, vKpts);
 			if (score >= track_thresh)
 			{
 				detections.push_back(strack);
@@ -524,7 +526,7 @@ cv::Scalar BYTEtracker::get_color(int idx)
 		strack *det = &detections[matches[i][1]];
 		if (track->state == TrackState::Tracked)
 		{
-			track->update(*det, this->frame_id);
+            track->update(*det, this->frame_id);
 			activated_stracks.push_back(*track);
 		}
 		else
@@ -662,13 +664,13 @@ cv::Scalar BYTEtracker::get_color(int idx)
 	this->tracked_stracks.assign(resa.begin(), resa.end());
 	this->lost_stracks.clear();
 	this->lost_stracks.assign(resb.begin(), resb.end());
-	
-	for (int i = 0; i < this->tracked_stracks.size(); i++)
+
+    for (int i = 0; i < this->tracked_stracks.size(); i++)
 	{
 		if (this->tracked_stracks[i].is_activated)
 		{
 			output_stracks.push_back(this->tracked_stracks[i]);
 		}
 	}
-	return output_stracks;
+    return output_stracks;
 }

@@ -2,13 +2,14 @@
 
 #include <opencv2/opencv.hpp>
 #include "bytekalman_filter.h"
-
+#include <Results.h>
+#include <InferResult.h>
 enum TrackState { New = 0, Tracked, Lost, Removed };
 
 class strack
 {
 public:
-	strack(std::vector<float> tlwh_, float score, int class_id);
+	strack(std::vector<float> tlwh_, float score, int class_id,std::vector<float> kpts, std::vector<tensorrt_yolo::KeyPoint> vKpts);
 	~strack();
 
 	 std::vector<float> static tlbr_to_tlwh( std::vector<float> &tlbr);
@@ -41,7 +42,8 @@ public:
     KAL_MEAN mean;
 	KAL_COVA covariance;
 	float score;
-
+    std::vector<float> kpts_;
+    std::vector<tensorrt_yolo::KeyPoint> vKpts_;
 private:
 	byte_kalman::ByteKalmanFilter kalman_filter;
 };
