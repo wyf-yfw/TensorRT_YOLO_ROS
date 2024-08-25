@@ -1,4 +1,30 @@
-# YOLOv8 目标检测模型转 TensorRT
+# YOLOv8 目标检测模型通过 TensorRT部署
+
+## 更新日志
+
+### v2.1 - 2024.8.25
+
+- 合并d_camera_infer_node和camera_infer_node，统一使用camera_infer_node
+- 增加depth变量
+
+### v2.0 -  2024.8.19
+
+- 加入bytetrack算法
+- 增加d_camera_infer_node和camera_infer_node的track功能
+
+### v1.1 - 2024.8.14
+
+- 删除用于表示检测结果的type.h文件
+- 增加infer_result.msg和results.msg文件用于表示和publish检测结果
+- 实现检测结果在ros上的publish
+- 增加d435i_yolo.launch文件
+- 增加track变量
+- 完善config文件
+- 完善readme
+
+### v1.0 - 2024.8.3
+
+- 实现基本的相机和照片的目标检测功能
 
 ## 环境
 ubuntu 20.04 + ros noetic
@@ -11,7 +37,10 @@ TensorRT 8.6.1.6
 
 cmake 3.22.1
 
-注意：运行时可能报错 段错误(核心已转储)，这是你自己的opencv版本和ros默认的版本造成冲突导致的，删除自己的版本使用ros默认的opencv即可解决报错
+注意：
+
+- 运行时可能报错 段错误(核心已转储)，这是你自己的opencv版本和ros默认的版本造成冲突导致的，删除自己的版本使用ros默认的opencv即可解决报错
+- 目前仅支持TensorRT 8，使用10会报错
 
 ## 文件结构
 
@@ -54,13 +83,13 @@ cmake 3.22.1
 
 │   ├── dataType.h
 
-│   ├── d_camera_infer.h
-
 │   ├── image_infer.h
 
 │   ├── infer.h
 
-│   ├── infer_result.h
+│   ├── InferResult.h
+
+│   ├── KeyPoint.h
 
 │   ├── lapjv.h
 
@@ -70,7 +99,7 @@ cmake 3.22.1
 
 │   ├── public.h
 
-│   ├── results.h
+│   ├── Results.h
 
 │   ├── STrack.h
 
@@ -111,8 +140,6 @@ cmake 3.22.1
 ​    ├── camera_infer.cpp
 
 ​    ├── config.cpp
-
-​    ├── d_camera_infer.cpp
 
 ​    ├── image_infer.cpp
 
@@ -179,7 +206,7 @@ path = model.export(format="onnx", simplify=True, device=0, opset=12, dynamic=Fa
 
 ## 运行节点
 
-目前共有三个节点，分别是image_infer_node、camera_infer_node以及d_camera_infer_node
+目前共有两个节点，分别是image_infer_node、camera_infer_node
 
 先运行自己的相机节点，然后运行相应的推理节点
 
@@ -196,15 +223,18 @@ roslaunch tensorrt_yolo d435i_yolo.launch
  <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
      <!-- 是否启动目标跟踪 -->
      <param name="track" value="false"/>
+     <!-- 是否启动深度相机 -->
+     <param name="depth" value="false"/>
+
    </node>
 ```
 
-默认为false关闭追踪，可以自行选择开启
+默认为false，可以自行选择开启
 
 ## 节点订阅数据
 
 ```
-const std::string rgbImageTopic = "camera/color/image_raw"; //ros中image的topic
+const std::string rgbImageTopic = "/camera/color/image_raw"; //ros中image的topic
 const std::string depthImageTopic = "/camera/depth/image_rect_raw"; //ros中depth image的topic
 ```
 
@@ -218,6 +248,8 @@ float32 conf
 int32 classId
 float32[3] coordinate //d_camera_infer_node发布三维空间坐标，camera_infer_node发布二维坐标，z=0
 int32 Id // 关闭追踪模式默认为0，开启目标追踪为当前追踪的id值
+KeyPoint[] kpts // 用于pose检测时的关键点数组
+
 ```
 
 

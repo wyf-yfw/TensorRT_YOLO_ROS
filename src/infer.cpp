@@ -12,18 +12,14 @@
 #include <geometry_msgs/Point.h>
 #include <InferResult.h>
 #include <Results.h>
-
+#include "config.h"
 using namespace nvinfer1;
 
 YoloDetector::YoloDetector(
-        int gpuId,                // GPU ID
-        float nmsThresh,          // 非极大值抑制 (NMS) 阈值
-        float confThresh,         // 置信度阈值
-        int numClass             // 类别数量
-    ): trtFile_(trtFile), nmsThresh_(nmsThresh), confThresh_(confThresh), numClass_(numClass), img_(nullptr)
+    ): trtFile_(trtFile), nmsThresh_(kNmsThresh), confThresh_(kConfThresh), numClass_(kNumClass), img_(nullptr)
 {
     gLogger = Logger(ILogger::Severity::kERROR); // 设置日志记录器
-    cudaSetDevice(gpuId); // 设置当前 GPU
+    cudaSetDevice(kGpuId); // 设置当前 GPU
 
     CHECK(cudaStreamCreate(&stream)); // 创建 CUDA 流
 

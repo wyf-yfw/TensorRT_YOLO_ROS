@@ -17,10 +17,6 @@ class YoloDetector
 {
 public:
     YoloDetector(
-        int gpuId=kGpuId,
-        float nmsThresh=kNmsThresh,
-        float confThresh=kConfThresh,
-        int numClass=kNumClass
     );
     ~YoloDetector();
     tensorrt_yolo::Results inference(cv::Mat& img);
