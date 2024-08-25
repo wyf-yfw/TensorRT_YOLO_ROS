@@ -274,7 +274,6 @@ inline void draw_pose_points(cv::Mat& img, tensorrt_yolo::Results results_msg_){
             if (conf < 0.5) continue;
             cv::circle(img, cv::Point(x, y), radius, kptColor, -1);
         }
-        ROS_INFO("%lu", vScaledKpts.size());
         // draw skeleton between key points
         int kpt1_idx, kpt2_idx, kpt1_x, kpt1_y, kpt2_x, kpt2_y;
         float kpt1_conf, kpt2_conf;
