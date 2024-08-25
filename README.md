@@ -32,6 +32,39 @@
 
 - 实现基本的相机和照片的目标检测功能
 
+## 实现效果
+
+### 目标检测
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112898986738795&bvid=BV1Niv9erEuw&cid=500001637389749&p=1" 
+    scrolling="no" 
+    border="0" 
+    frameborder="no" 
+    framespacing="0" 
+    allowfullscreen="true" 
+    width="640" 
+    height="480">
+</iframe>
+
+### 目标追踪
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112989013279998&bvid=BV1NmpSeeE2o&cid=500001655010412&p=1"   scrolling="no" 
+    border="0" 
+    frameborder="no" 
+    framespacing="0" 
+    allowfullscreen="true" 
+    width="640" 
+    height="480">></iframe>
+
+
+
+### pose检测
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113023624675958&bvid=BV1fzWCeBEPx&cid=500001662189599&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" 
+    width="640" 
+    height="480"></iframe>
+
+
 ## 环境
 ubuntu 20.04 + ros noetic
 
