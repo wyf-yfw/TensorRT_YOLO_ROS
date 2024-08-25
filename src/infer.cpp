@@ -10,8 +10,8 @@
 #include "utils.h"
 #include <ros/ros.h>
 #include <geometry_msgs/Point.h>
-#include <infer_result.h>
-#include <results.h>
+#include <InferResult.h>
+#include <Results.h>
 
 using namespace nvinfer1;
 
@@ -144,7 +144,7 @@ YoloDetector::~YoloDetector(){
     delete runtime; // 释放推理运行时
 }
 
-tensorrt_yolo::results YoloDetector::inference(cv::Mat& img){
+tensorrt_yolo::Results YoloDetector::inference(cv::Mat& img){
 
     img_ = &img;
     if (img.empty()) return {}; // 如果图像为空，返回空结果
@@ -167,13 +167,13 @@ tensorrt_yolo::results YoloDetector::inference(cv::Mat& img){
     cudaStreamSynchronize(stream); // 等待 CUDA 流完成所有操作
 
     // 解析检测结果
-    tensorrt_yolo::results vDetections;
+    tensorrt_yolo::Results vDetections;
     int count = std::min((int)outputData[0], kMaxNumOutputBbox); // 获取检测框数量
     for (int i = 0; i < count; i++){
         int pos = 1 + i * kNumBoxElement;
         int keepFlag = (int)outputData[pos + 6];
         if (keepFlag == 1){
-            tensorrt_yolo::infer_result det;
+            tensorrt_yolo::InferResult det;
             memcpy(det.bbox.data(), &outputData[pos], 4 * sizeof(float)); // 复制边界框数据
             det.conf = outputData[pos + 4]; // 复制置信度
             det.classId = (int)outputData[pos + 5]; // 复制类别 ID

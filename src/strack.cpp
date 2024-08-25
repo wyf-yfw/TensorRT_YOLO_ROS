@@ -1,6 +1,6 @@
-#include "STrack.h"
+#include "strack.h"
 
-STrack::STrack( std::vector<float> tlwh_, float score, int class_id)
+strack::strack(std::vector<float> tlwh_, float score, int class_id)
 {
 	_tlwh.resize(4);
 	_tlwh.assign(tlwh_.begin(), tlwh_.end());
@@ -20,11 +20,11 @@ STrack::STrack( std::vector<float> tlwh_, float score, int class_id)
 	start_frame = 0;
 }
 
-STrack::~STrack()
+strack::~strack()
 {
 }
 
-void STrack::activate(byte_kalman::ByteKalmanFilter &kalman_filter, int frame_id)
+void strack::activate(byte_kalman::ByteKalmanFilter &kalman_filter, int frame_id)
 {
 	this->kalman_filter = kalman_filter;
 	this->track_id = this->next_id();
@@ -58,7 +58,7 @@ void STrack::activate(byte_kalman::ByteKalmanFilter &kalman_filter, int frame_id
 	this->start_frame = frame_id;
 }
 
-void STrack::re_activate(STrack &new_track, int frame_id, bool new_id)
+void strack::re_activate(strack &new_track, int frame_id, bool new_id)
 {
 	 std::vector<float> xyah = tlwh_to_xyah(new_track.tlwh);
 	DETECTBOX xyah_box;
@@ -83,7 +83,7 @@ void STrack::re_activate(STrack &new_track, int frame_id, bool new_id)
 		this->track_id = next_id();
 }
 
-void STrack::update(STrack &new_track, int frame_id)
+void strack::update(strack &new_track, int frame_id)
 {
 	this->frame_id = frame_id;
 	this->tracklet_len++;
@@ -109,7 +109,7 @@ void STrack::update(STrack &new_track, int frame_id)
     this->classId_ = new_track.classId_;
 }
 
-void STrack::static_tlwh()
+void strack::static_tlwh()
 {
 	if (this->state == TrackState::New)
 	{
@@ -130,7 +130,7 @@ void STrack::static_tlwh()
 	tlwh[1] -= tlwh[3] / 2;
 }
 
-void STrack::static_tlbr()
+void strack::static_tlbr()
 {
 	tlbr.clear();
 	tlbr.assign(tlwh.begin(), tlwh.end());
@@ -138,7 +138,7 @@ void STrack::static_tlbr()
 	tlbr[3] += tlbr[1];
 }
 
- std::vector<float> STrack::tlwh_to_xyah( std::vector<float> tlwh_tmp)
+ std::vector<float> strack::tlwh_to_xyah(std::vector<float> tlwh_tmp)
 {
 	 std::vector<float> tlwh_output = tlwh_tmp;
 	tlwh_output[0] += tlwh_output[2] / 2;
@@ -147,41 +147,41 @@ void STrack::static_tlbr()
 	return tlwh_output;
 }
 
- std::vector<float> STrack::to_xyah()
+ std::vector<float> strack::to_xyah()
 {
 	return tlwh_to_xyah(tlwh);
 }
 
- std::vector<float> STrack::tlbr_to_tlwh( std::vector<float> &tlbr)
+ std::vector<float> strack::tlbr_to_tlwh(std::vector<float> &tlbr)
 {
 	tlbr[2] -= tlbr[0];
 	tlbr[3] -= tlbr[1];
 	return tlbr;
 }
 
-void STrack::mark_lost()
+void strack::mark_lost()
 {
 	state = TrackState::Lost;
 }
 
-void STrack::mark_removed()
+void strack::mark_removed()
 {
 	state = TrackState::Removed;
 }
 
-int STrack::next_id()
+int strack::next_id()
 {
 	static int _count = 0;
 	_count++;
 	return _count;
 }
 
-int STrack::end_frame()
+int strack::end_frame()
 {
 	return this->frame_id;
 }
 
-void STrack::multi_predict( std::vector<STrack*> &stracks, byte_kalman::ByteKalmanFilter &kalman_filter)
+void strack::multi_predict(std::vector<strack*> &stracks, byte_kalman::ByteKalmanFilter &kalman_filter)
 {
 	for (int i = 0; i < stracks.size(); i++)
 	{

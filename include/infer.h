@@ -6,8 +6,8 @@
 #include "config.h"
 #include "types.h"
 #include <ros/ros.h>
-#include <infer_result.h>
-#include <results.h>
+#include <InferResult.h>
+#include <Results.h>
 
 using namespace nvinfer1;
 
@@ -23,7 +23,7 @@ public:
         int numClass=kNumClass
     );
     ~YoloDetector();
-    tensorrt_yolo::results inference(cv::Mat& img);
+    tensorrt_yolo::Results inference(cv::Mat& img);
 private:
     void get_engine();
 

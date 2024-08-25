@@ -1,1 +1,0 @@
-infer_result[] results

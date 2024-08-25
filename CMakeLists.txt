@@ -22,8 +22,9 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_message_files(
         FILES
-        infer_result.msg
-        results.msg
+        InferResult.msg
+        KeyPoint.msg
+        Results.msg
 )
 generate_messages(
         DEPENDENCIES
@@ -79,39 +80,24 @@ target_link_libraries(yolo_infer
 add_executable(camera_infer_node
         src/camera_infer.cpp
         include/camera_infer.h
-        include/BYTETracker.h
-        include/BytekalmanFilter.h
+        include/byte_tracker.h
+        include/bytekalman_filter.h
         include/lapjv.h
-        include/STrack.h
-        src/BytekalmanFilter.cpp
-        src/BYTETracker.cpp
+        include/strack.h
+        src/bytekalman_filter.cpp
+        src/byte_tracker.cpp
         src/lapjv.cpp
-        src/STrack.cpp
+        src/strack.cpp
+        include/KeyPoint.h
 )
 target_link_libraries(camera_infer_node
-        yolo_infer
-        ${catkin_LIBRARIES}
-)
-add_executable(d_camera_infer_node
-        src/d_camera_infer.cpp
-        include/d_camera_infer.h
-        include/BYTETracker.h
-        include/BytekalmanFilter.h
-        include/lapjv.h
-        include/STrack.h
-        src/BytekalmanFilter.cpp
-        src/BYTETracker.cpp
-        src/lapjv.cpp
-        src/STrack.cpp
-
-)
-target_link_libraries(d_camera_infer_node
         yolo_infer
         ${catkin_LIBRARIES}
 )
 add_executable(image_infer_node
         src/image_infer.cpp
         include/image_infer.h
+        include/KeyPoint.h
 )
 target_link_libraries(image_infer_node
         yolo_infer

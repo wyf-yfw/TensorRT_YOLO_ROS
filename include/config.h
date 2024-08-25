@@ -13,6 +13,8 @@ extern const std::vector<int> track_classes;
 
 extern const int kGpuId;
 extern const int kNumClass ;
+extern const int kNumKpt;
+extern const int kKptDims;
 extern const int kInputH ;
 extern const int kInputW ;
 extern const float kNmsThresh ;

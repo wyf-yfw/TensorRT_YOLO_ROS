@@ -23,7 +23,7 @@ int ImageInfer::run(){
 
         auto start = std::chrono::system_clock::now();
 
-        tensorrt_yolo::results res = inference(img);
+        tensorrt_yolo::Results res = inference(img);
         for(int i = 0; i < res.results.size();i++) {
             draw_image(img, res.results[i]);
         }
@@ -43,7 +43,7 @@ void ImageInfer::SaveResult(const cv::Mat& img, int num) {
     cv::imwrite("_" + file_names_[num], img);
 
 }
-void ImageInfer::draw_image(cv::Mat& img, tensorrt_yolo::infer_result inferResult){
+void ImageInfer::draw_image(cv::Mat& img, tensorrt_yolo::InferResult inferResult){
     // 在图像上绘制检测结果
 
     cv::Scalar bboxColor((inferResult.classId * 30 + 123) % 255, (inferResult.classId * 20 + 78) % 255 , (inferResult.classId + 478) % 255); // 随机颜色

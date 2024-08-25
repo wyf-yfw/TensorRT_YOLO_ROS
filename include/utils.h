@@ -5,9 +5,12 @@
 #include <random>
 #include <opencv2/opencv.hpp>
 #include <chrono>
-#include "BYTETracker.h"
+#include "byte_tracker.h"
 #include "config.h"
 #include <ros/ros.h>
+#include <InferResult.h>
+#include <Results.h>
+#include <iomanip>
 // 读取文件
 static inline int read_files_in_dir(const char* p_dir_name, std::vector<std::string>& file_names)
 {
@@ -43,7 +46,7 @@ static inline int get_random_int(int minThres=0, int maxThres=255){
     return random_integer;
 }
 //infer_result格式转化为追踪下的detect_result格式
-inline void yolo_detece2detect_result(tensorrt_yolo::results& results_msg_, std::vector<detect_result>& objects){
+inline void yolo_detece2detect_result(tensorrt_yolo::Results& results_msg_, std::vector<detect_result>& objects){
     for(int i = 0; i < results_msg_.results.size();i++){
         detect_result det;
         det.classId = results_msg_.results[i].classId;
@@ -58,10 +61,10 @@ inline void yolo_detece2detect_result(tensorrt_yolo::results& results_msg_, std:
     }
 }
 // 绘制追踪边框
-inline void draw_tracking_box(cv::Mat& img, std::vector<STrack>& output_stracks, tensorrt_yolo::results& results_msg_){
+inline void draw_tracking_box(cv::Mat& img, std::vector<strack>& output_stracks, tensorrt_yolo::Results& results_msg_){
     for (unsigned long i = 0; i < output_stracks.size(); i++)
     {
-        tensorrt_yolo::infer_result inf;
+        tensorrt_yolo::InferResult inf;
         for(int j = 0;j < 4; j ++){
             inf.bbox[j] = output_stracks[i].tlbr[j];
         }
@@ -111,8 +114,8 @@ inline void draw_fps(cv::Mat& img, int& frame_count_, std::chrono::high_resoluti
     }
 }
 // 绘制目标检测边框
-inline void draw_detection_box(cv::Mat& img, tensorrt_yolo::results& results_msgs_){
-    for(tensorrt_yolo::infer_result inferResult : results_msgs_.results) {
+inline void draw_detection_box(cv::Mat& img, tensorrt_yolo::Results& results_msgs_){
+    for(tensorrt_yolo::InferResult inferResult : results_msgs_.results) {
         // 在图像上绘制检测结果
 
         cv::Scalar bboxColor((inferResult.classId * 30 + 123) % 255, (inferResult.classId * 20 + 78) % 255,
@@ -138,7 +141,8 @@ inline void draw_detection_box(cv::Mat& img, tensorrt_yolo::results& results_msg
     }
 }
 // 计算并绘制相机坐标中心点坐标
-inline void calculate_print_center_point(cv::Mat& img, cv::Mat& depth_img, tensorrt_yolo::results& results_msg_){
+inline void calculate_print_center_point(cv::Mat& img, cv::Mat& depth_img, tensorrt_yolo::Results& results_msg_){
+    std::stringstream stream;
     for(int i = 0;i<results_msg_.results.size();i++) {
         cv::Scalar bboxColor((results_msg_.results[i].classId * 30 + 123) % 255, (results_msg_.results[i].classId * 20 + 78) % 255,
                              (results_msg_.results[i].classId + 478) % 255); // 随机颜色
@@ -183,10 +187,13 @@ inline void calculate_print_center_point(cv::Mat& img, cv::Mat& depth_img, tenso
                     round(pixel_x),
                     round(pixel_y)
             );
-            std::string text =
-                    "(" + std::to_string(results_msg_.results[i].coordinate[0]) + ", " + std::to_string(results_msg_.results[i].coordinate[1]) +
-                    ", " + std::to_string(results_msg_.results[i].coordinate[2]) + ")";// 构造坐标文本
+            stream << std::fixed << std::setprecision(2)
+                   << "(" << results_msg_.results[i].coordinate[0] << ", "
+                   << results_msg_.results[i].coordinate[1] << ", "
+                   << results_msg_.results[i].coordinate[2] << ")";
 
+            // 构造坐标文本
+            std::string text = stream.str();
             cv::circle(img, p, 2, bboxColor, -1); // 绘制中心点
             cv::Point textOrg(p.x + 5, p.y + 5);// 文本位置在点的右边
             cv::putText(img, text, textOrg, fontFace, fontScale, bboxColor, thickness, cv::LINE_AA);// 绘制中心点坐标
@@ -199,7 +206,7 @@ inline void calculate_print_center_point(cv::Mat& img, cv::Mat& depth_img, tenso
     }
 }
 // 计算并绘制像素坐标中心点
-inline void calculate_print_center_point(cv::Mat& img, tensorrt_yolo::results& results_msg_) {
+inline void calculate_print_center_point(cv::Mat& img, tensorrt_yolo::Results& results_msg_) {
     for(int i = 0;i<results_msg_.results.size();i++) {
         cv::Scalar bboxColor((results_msg_.results[i].classId * 30 + 123) % 255, (results_msg_.results[i].classId * 20 + 78) % 255,
                              (results_msg_.results[i].classId + 478) % 255); // 随机颜色
