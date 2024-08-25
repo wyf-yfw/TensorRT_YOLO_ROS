@@ -26,25 +26,27 @@
 
 class CameraInfer:public YoloDetector, public BYTEtracker{
 public:
-    CameraInfer(ros::NodeHandle& nh,  bool track, bool depth);
-    int detect(cv::Mat& img);
-    int detect(cv::Mat& img, cv::Mat& depth_img);
-    int pose(cv::Mat& img);
-    void bytetrack(cv::Mat& img);
-    void bytetrack(cv::Mat& img, cv::Mat& depth_img);
+    CameraInfer(ros::NodeHandle& nh);
+    void draw_image(cv::Mat& img);
+    void draw_image(cv::Mat& img, cv::Mat& depth_img);
+    void bytetrack();
     void image_callback(const sensor_msgs::ImageConstPtr& msg);
     void image_callback(const sensor_msgs::ImageConstPtr& rbg_msg, const sensor_msgs::ImageConstPtr& depth_msg);
 protected:
     image_transport::Subscriber image_sub_;
+    // topic的名字
+    std::string rgbImageTopic_;
+    std::string depthImageTopic_;
+
     int frame_count_;
     std::chrono::high_resolution_clock::time_point start_time_;
     image_transport::ImageTransport it_;
-    ros::NodeHandle& nh_;
     tensorrt_yolo::Results results_msg_;
-    ros::Publisher detect_results_pub_ = nh_.advertise<tensorrt_yolo::Results>("detect_results", 10);
-    ros::Publisher track_results_pub_ = nh_.advertise<tensorrt_yolo::Results>("track_results", 10);
+    ros::Publisher results_pub_ = nh_.advertise<tensorrt_yolo::Results>("infer_results", 10);
+    std::vector<strack> output_stracks_;
     // 追踪开关，默认为false
     bool track_;
     bool depth_;
+    bool pose_;
 };
 //#endif //CAMERA_INFER_H

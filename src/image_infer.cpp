@@ -7,7 +7,7 @@
 #include "image_infer.h"
 #include "config.h"
 
-ImageInfer::ImageInfer(ros::NodeHandle& nh):save_(true),imageDir_(imageDir),YoloDetector(){
+ImageInfer::ImageInfer(ros::NodeHandle& nh):save_(true),imageDir_(imageDir),YoloDetector(nh){
     if (read_files_in_dir(imageDir_, file_names_) < 0) {
         std::cout << "read_files_in_dir failed." << std::endl;
     }
@@ -30,8 +30,7 @@ int ImageInfer::run(){
         auto end = std::chrono::system_clock::now();
         int cost = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         std::cout << "Image: " << file_names_[i] << " cost: " << cost << " ms."  << std::endl;
-        // std::cout << "Image: " << file_names[i] << " done." << std::endl;
-        if(save_ == true) {
+        if(save_) {
             SaveResult(img, i);
         }
     }

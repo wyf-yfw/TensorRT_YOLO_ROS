@@ -16,21 +16,26 @@ using namespace nvinfer1;
 class YoloDetector
 {
 public:
-    YoloDetector(
-    );
+    YoloDetector(ros::NodeHandle& nh);
     ~YoloDetector();
     tensorrt_yolo::Results inference(cv::Mat& img);
+    tensorrt_yolo::Results inference(cv::Mat& img, bool pose);
+    ros::NodeHandle&    nh_;
 private:
     void get_engine();
 
 private:
+
     Logger              gLogger;
     std::string         trtFile_;
+    std::string         onnxFile_;
 
     int                 numClass_;
     float               nmsThresh_;
     float               confThresh_;
-
+    int                 numKpt_;
+    int                 kptDims_;
+    int                 numBoxElement_;
     ICudaEngine *       engine;
     IRuntime *          runtime;
     IExecutionContext * context;

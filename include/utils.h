@@ -12,6 +12,7 @@
 #include <KeyPoint.h>
 #include <Results.h>
 #include <iomanip>
+#include "types.h"
 // 读取文件
 static inline int read_files_in_dir(const char* p_dir_name, std::vector<std::string>& file_names)
 {
@@ -62,7 +63,7 @@ inline void yolo_detece2detect_result(tensorrt_yolo::Results& results_msg_, std:
     }
 }
 // 绘制追踪边框
-inline void draw_tracking_box(cv::Mat& img, std::vector<strack>& output_stracks, tensorrt_yolo::Results& results_msg_){
+inline void draw_tracking_id(cv::Mat& img, std::vector<strack>& output_stracks, tensorrt_yolo::Results& results_msg_){
     for (unsigned long i = 0; i < output_stracks.size(); i++)
     {
         tensorrt_yolo::InferResult inf;
@@ -82,7 +83,7 @@ inline void draw_tracking_box(cv::Mat& img, std::vector<strack>& output_stracks,
 
             cv::putText(img, cv::format("ID: %d", output_stracks[i].track_id), cv::Point(tlwh[0], tlwh[1] + 20),
                         0, 0.6, cv::Scalar(0, 0, 255), 2, cv::LINE_AA);
-            cv::rectangle(img, cv::Rect(tlwh[0], tlwh[1], tlwh[2], tlwh[3]), s, 2);
+//            cv::rectangle(img, cv::Rect(tlwh[0], tlwh[1], tlwh[2], tlwh[3]), s, 2);
         }
     }
 
@@ -142,7 +143,7 @@ inline void draw_detection_box(cv::Mat& img, tensorrt_yolo::Results& results_msg
     }
 }
 // 计算并绘制相机坐标中心点坐标
-inline void calculate_print_center_point(cv::Mat& img, cv::Mat& depth_img, tensorrt_yolo::Results& results_msg_){
+inline void calculate_draw_center_point(cv::Mat& img, cv::Mat& depth_img, tensorrt_yolo::Results& results_msg_){
     std::stringstream stream;
     for(int i = 0;i<results_msg_.results.size();i++) {
         cv::Scalar bboxColor((results_msg_.results[i].classId * 30 + 123) % 255, (results_msg_.results[i].classId * 20 + 78) % 255,
@@ -207,7 +208,7 @@ inline void calculate_print_center_point(cv::Mat& img, cv::Mat& depth_img, tenso
     }
 }
 // 计算并绘制像素坐标中心点
-inline void calculate_print_center_point(cv::Mat& img, tensorrt_yolo::Results& results_msg_) {
+inline void calculate_draw_center_point(cv::Mat& img, tensorrt_yolo::Results& results_msg_) {
     for(int i = 0;i<results_msg_.results.size();i++) {
         cv::Scalar bboxColor((results_msg_.results[i].classId * 30 + 123) % 255, (results_msg_.results[i].classId * 20 + 78) % 255,
                              (results_msg_.results[i].classId + 478) % 255); // 随机颜色
@@ -250,38 +251,17 @@ inline void calculate_print_center_point(cv::Mat& img, tensorrt_yolo::Results& r
         }
     }
 }
-inline void draw_pose_image(cv::Mat& img, tensorrt_yolo::Results inferResult, bool drawBbox, bool kptLine){
+inline void draw_pose_points(cv::Mat& img, tensorrt_yolo::Results results_msg_){
     // draw inference result on image
-    for (size_t j = 0; j < inferResult.results.size(); j++)
+    for (size_t j = 0; j < results_msg_.results.size(); j++)
     {
-        // draw bboxes
-        if (drawBbox){
-            cv::Scalar bboxColor(get_random_int(), get_random_int(), get_random_int());
-            cv::Rect r(
-                    round(inferResult.results[j].bbox[0]),
-                    round(inferResult.results[j].bbox[1]),
-                    round(inferResult.results[j].bbox[2] - inferResult.results[j].bbox[0]),
-                    round(inferResult.results[j].bbox[3] - inferResult.results[j].bbox[1])
-            );
-            cv::rectangle(img, r, bboxColor, 2);
-
-            std::string className = vClassNames[(int)inferResult.results[j].classId];
-            std::string labelStr = className + " " + std::to_string(inferResult.results[j].conf).substr(0, 4);
-
-            cv::Size textSize = cv::getTextSize(labelStr, cv::FONT_HERSHEY_PLAIN, 1.2, 2, NULL);
-            cv::Point topLeft(r.x, r.y - textSize.height - 3);
-            cv::Point bottomRight(r.x + textSize.width, r.y);
-            cv::rectangle(img, topLeft, bottomRight, bboxColor, -1);
-            cv::putText(img, labelStr, cv::Point(r.x, r.y - 2), cv::FONT_HERSHEY_PLAIN, 1.2, cv::Scalar(255, 255, 255), 2, cv::LINE_AA);
-        }
-
-        // draw key points
         int x, y;
         float conf;
         int radius = std::min(img.rows, img.cols) / 100;
         cv::Scalar kptColor(get_random_int(), get_random_int(), get_random_int());
 
-        std::vector<tensorrt_yolo::KeyPoint> vScaledKpts = inferResult.results[j].vKpts;
+        std::vector<tensorrt_yolo::KeyPoint> vScaledKpts = results_msg_.results[j].vKpts;
+
         for (size_t k = 0; k < vScaledKpts.size(); k++){
             x = (int)vScaledKpts[k].x;
             y = (int)vScaledKpts[k].y;
@@ -290,28 +270,35 @@ inline void draw_pose_image(cv::Mat& img, tensorrt_yolo::Results inferResult, bo
             if (conf < 0.5) continue;
             cv::circle(img, cv::Point(x, y), radius, kptColor, -1);
         }
-
+        ROS_INFO("%lu", vScaledKpts.size());
         // draw skeleton between key points
-        if (kptLine){
-            int kpt1_idx, kpt2_idx, kpt1_x, kpt1_y, kpt2_x, kpt2_y;
-            float kpt1_conf, kpt2_conf;
-            int skeleton_width = std::min(img.rows, img.cols) / 300;
-            cv::Scalar skeletonColor(get_random_int(), get_random_int(), get_random_int());
-            for (size_t m = 0; m < skeleton.size(); m++){
-                kpt1_idx = skeleton[m][0] - 1;
-                kpt2_idx = skeleton[m][1] - 1;
-                kpt1_x = (int)vScaledKpts[kpt1_idx].x;
-                kpt1_y = (int)vScaledKpts[kpt1_idx].y;
-                kpt1_conf = vScaledKpts[kpt1_idx].visible;
-                kpt2_x = (int)vScaledKpts[kpt2_idx].x;
-                kpt2_y = (int)vScaledKpts[kpt2_idx].y;
-                kpt2_conf = vScaledKpts[kpt2_idx].visible;
-                if (kpt1_conf < 0.5 || kpt2_conf < 0.5) continue;
-                if (kpt1_x > img.cols || kpt1_y > img.rows || kpt1_x < 0 || kpt1_y < 0) continue;
-                if (kpt2_x > img.cols || kpt2_y > img.rows || kpt2_x < 0 || kpt2_y < 0) continue;
-                cv::line(img, cv::Point(kpt1_x, kpt1_y), cv::Point(kpt2_x, kpt2_y), skeletonColor, skeleton_width, cv::LINE_AA);
-            }
+        int kpt1_idx, kpt2_idx, kpt1_x, kpt1_y, kpt2_x, kpt2_y;
+        float kpt1_conf, kpt2_conf;
+        int skeleton_width = std::min(img.rows, img.cols) / 300;
+        cv::Scalar skeletonColor((results_msg_.results[j].classId * 30 + 123) % 255, (results_msg_.results[j].classId * 20 + 78) % 255,
+                             (results_msg_.results[j].classId + 478) % 255); // 随机颜色
+
+        for (size_t m = 0; m < skeleton.size(); m++){
+            kpt1_idx = skeleton[m][0] - 1;
+            kpt2_idx = skeleton[m][1] - 1;
+
+            kpt1_x = (int)vScaledKpts[kpt1_idx].x;
+
+            kpt1_y = (int)vScaledKpts[kpt1_idx].y;
+
+            kpt1_conf = vScaledKpts[kpt1_idx].visible;
+
+            kpt2_x = (int)vScaledKpts[kpt2_idx].x;
+            kpt2_y = (int)vScaledKpts[kpt2_idx].y;
+
+            kpt2_conf = vScaledKpts[kpt2_idx].visible;
+
+            if (kpt1_conf < 0.5 || kpt2_conf < 0.5) continue;
+            if (kpt1_x > img.cols || kpt1_y > img.rows || kpt1_x < 0 || kpt1_y < 0) continue;
+            if (kpt2_x > img.cols || kpt2_y > img.rows || kpt2_x < 0 || kpt2_y < 0) continue;
+            cv::line(img, cv::Point(kpt1_x, kpt1_y), cv::Point(kpt2_x, kpt2_y), skeletonColor, skeleton_width, cv::LINE_AA);
         }
+
     }
 }
 

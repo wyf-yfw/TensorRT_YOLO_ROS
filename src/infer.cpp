@@ -15,9 +15,18 @@
 #include "config.h"
 using namespace nvinfer1;
 
-YoloDetector::YoloDetector(
-    ): trtFile_(trtFile), nmsThresh_(kNmsThresh), confThresh_(kConfThresh), numClass_(kNumClass), img_(nullptr)
+YoloDetector::YoloDetector(ros::NodeHandle& nh):
+img_(nullptr),
+nh_(nh)
 {
+    nh.getParam("/yolo_node/planFile", trtFile_);
+    nh.getParam("/yolo_node/onnxFile", onnxFile_);
+    nh.getParam("/yolo_node/confThresh", confThresh_);
+    nh.getParam("/yolo_node/numClass", numClass_);
+    nh.getParam("/yolo_node/nmsThresh", nmsThresh_);
+    nh.getParam("/yolo_node/numKpt", numKpt_);
+    nh.getParam("/yolo_node/kptDims", kptDims_);
+    numBoxElement_ = 7 + numKpt_ * kptDims_;
     gLogger = Logger(ILogger::Severity::kERROR); // 设置日志记录器
     cudaSetDevice(kGpuId); // 设置当前 GPU
 
@@ -38,14 +47,14 @@ YoloDetector::YoloDetector(
     }
 
     // 在主机上分配输出数据空间
-    outputData = new float[1 + kMaxNumOutputBbox * kNumBoxElement];
+    outputData = new float[1 + kMaxNumOutputBbox * numBoxElement_];
     // 在设备上分配输入和输出空间
     vBufferD.resize(2, nullptr);
     CHECK(cudaMalloc(&vBufferD[0], 3 * kInputH * kInputW * sizeof(float))); // 输入数据
     CHECK(cudaMalloc(&vBufferD[1], outputSize * sizeof(float))); // 输出数据
 
     CHECK(cudaMalloc(&transposeDevice, outputSize * sizeof(float))); // 转置数据
-    CHECK(cudaMalloc(&decodeDevice, (1 + kMaxNumOutputBbox * kNumBoxElement) * sizeof(float))); // 解码数据
+    CHECK(cudaMalloc(&decodeDevice, (1 + kMaxNumOutputBbox * numBoxElement_) * sizeof(float))); // 解码数据
 }
 
 void YoloDetector::get_engine(){
@@ -82,7 +91,7 @@ void YoloDetector::get_engine(){
         }
 
         nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, gLogger); // 创建 ONNX 解析器
-        if (!parser->parseFromFile(onnxFile.c_str(), int(gLogger.reportableSeverity))){
+        if (!parser->parseFromFile(onnxFile_.c_str(), int(gLogger.reportableSeverity))){
            ROS_INFO("Failed parsing .onnx file!");
             for (int i = 0; i < parser->getNbErrors(); ++i){
                 auto *error = parser->getError(i);
@@ -97,7 +106,7 @@ void YoloDetector::get_engine(){
         profile->setDimensions(inputTensor->getName(), OptProfileSelector::kOPT, Dims32 {4, {1, 3, kInputH, kInputW}}); // 设置最优尺寸
         profile->setDimensions(inputTensor->getName(), OptProfileSelector::kMAX, Dims32 {4, {1, 3, kInputH, kInputW}}); // 设置最大尺寸
         config->addOptimizationProfile(profile); // 添加优化配置文件
-
+        ROS_INFO("Converting .onnx to .plan");
         IHostMemory *engineString = builder->buildSerializedNetwork(*network, *config); // 构建序列化网络
         ROS_INFO("Succeeded building serialized engine!");
 
@@ -154,19 +163,19 @@ tensorrt_yolo::Results YoloDetector::inference(cv::Mat& img){
     // 转置数据 [1 84 8400] 到 [1 8400 84]
     transpose((float*)vBufferD[1], transposeDevice, OUTPUT_CANDIDATES, numClass_ + 4, stream);
     // 解码数据 [1 8400 84] 到 [1 7001]
-    decode(transposeDevice, decodeDevice, OUTPUT_CANDIDATES, numClass_, confThresh_, kMaxNumOutputBbox, kNumBoxElement, stream);
+    decode(transposeDevice, decodeDevice, OUTPUT_CANDIDATES, numClass_, confThresh_, kMaxNumOutputBbox, numBoxElement_, stream);
     // 执行 CUDA 非极大值抑制 (NMS)
-    nms(decodeDevice, nmsThresh_, kMaxNumOutputBbox, kNumBoxElement, stream);
+    nms(decodeDevice, nmsThresh_, kMaxNumOutputBbox, numBoxElement_, stream);
 
     // 异步拷贝结果到主机
-    CHECK(cudaMemcpyAsync(outputData, decodeDevice, (1 + kMaxNumOutputBbox * kNumBoxElement) * sizeof(float), cudaMemcpyDeviceToHost, stream));
+    CHECK(cudaMemcpyAsync(outputData, decodeDevice, (1 + kMaxNumOutputBbox * numBoxElement_) * sizeof(float), cudaMemcpyDeviceToHost, stream));
     cudaStreamSynchronize(stream); // 等待 CUDA 流完成所有操作
 
     // 解析检测结果
     tensorrt_yolo::Results vDetections;
     int count = std::min((int)outputData[0], kMaxNumOutputBbox); // 获取检测框数量
     for (int i = 0; i < count; i++){
-        int pos = 1 + i * kNumBoxElement;
+        int pos = 1 + i * numBoxElement_;
         int keepFlag = (int)outputData[pos + 6];
         if (keepFlag == 1){
             tensorrt_yolo::InferResult det;
@@ -182,5 +191,48 @@ tensorrt_yolo::Results YoloDetector::inference(cv::Mat& img){
     }
 
     return vDetections; // 返回检测结果
+}
+
+tensorrt_yolo::Results YoloDetector::inference(cv::Mat& img, bool pose){
+    if (img.empty()) return {};
+    int nk = numKpt_ * kptDims_;  // number of keypoints total, default 51
+    // put input on device, then letterbox、bgr to rgb、hwc to chw、normalize.
+    preprocess(img, (float*)vBufferD[0], kInputH, kInputW, stream);
+
+    // tensorrt inference
+    context->enqueueV2(vBufferD.data(), stream, nullptr);
+    // transpose [56 8400] convert to [8400 56]
+    transpose((float*)vBufferD[1], transposeDevice, OUTPUT_CANDIDATES, 4 + numClass_ + nk, stream);
+    // convert [8400 56] to [58001, ], 58001 = 1 + 1000 * (4bbox + cond + cls + keepflag + 51kpts)
+
+    decode(transposeDevice, decodeDevice, OUTPUT_CANDIDATES, numClass_, nk, confThresh_, kMaxNumOutputBbox, numBoxElement_, stream);
+    // cuda nms
+    nms(decodeDevice, nmsThresh_, kMaxNumOutputBbox, numBoxElement_, stream);
+
+    CHECK(cudaMemcpyAsync(outputData, decodeDevice, (1 + kMaxNumOutputBbox * numBoxElement_) * sizeof(float), cudaMemcpyDeviceToHost, stream));
+    cudaStreamSynchronize(stream);
+    tensorrt_yolo::Results vDetections;
+    int count = std::min((int)outputData[0], kMaxNumOutputBbox);
+
+    for (int i = 0; i < count; i++){
+        int pos = 1 + i * numBoxElement_;
+        int keepFlag = (int)outputData[pos + 6];
+        if (keepFlag == 1){
+            tensorrt_yolo::InferResult det;
+            memcpy(det.bbox.data(), &outputData[pos], 4 * sizeof(float));
+            det.conf = outputData[pos + 4];
+            det.classId = (int)outputData[pos + 5];
+            det.kpts.resize(nk);
+            memcpy(det.kpts.data(), &outputData[pos + 7], nk * sizeof(float));
+            vDetections.results.push_back(det);
+        }
+    }
+
+    for (size_t j = 0; j < vDetections.results.size(); j++){
+        scale_bbox(img, vDetections.results[j].bbox.data());
+        vDetections.results[j].vKpts = scale_kpt_coords(img, vDetections.results[j].kpts.data(), numKpt_, kptDims_);
+    }
+
+    return vDetections;
 }
 

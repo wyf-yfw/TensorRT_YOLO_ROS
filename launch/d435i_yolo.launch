@@ -109,10 +109,39 @@
 
   <!-- 启动rviz -->
 <!--   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find realsense2_description)/rviz/urdf.rviz" required="true"/> -->
-<!-- 启动目标检测节点 -->
- <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
-     <!-- 是否启动目标跟踪 -->
-     <param name="track" value="false"/>
-     <param name="depth" value="false"/>
+
+    <!-- 启动目标检测节点 -->
+    <!-- 如果自己需要更换相机,可以直接将下面的配置复制到自己的launch文件中 -->
+    <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
+
+        <!-- 是否启动目标跟踪 -->
+        <param name="track" value="true"/>
+        <!-- 是否启动深度相机 -->
+        <param name="depth" value="false"/>
+        <!-- 是否启动姿态检测 -->
+        <param name="pose" value="true"/>
+
+        <!-- rgb图像topic -->
+        <param name="rgbImageTopic" value="camera/color/image_raw"/>
+        <!-- depth图像订阅地址,没有则忽略 -->
+        <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
+
+        <!-- .plan文件地址 -->
+        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose-fp16.plan"/>
+        <!-- .onnx文件地址 -->
+        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose.onnx"/>
+
+        <!-- 非极大值抑制 -->
+        <param name="nmsThresh" type = "double" value="0.7"/>
+        <!-- 置信度 -->
+        <param name="confThresh" type = "double" value="0.7"/>
+
+        <!-- 目标检测类型数量 -->
+        <param name="numClass" type = "int" value="1"/>
+        <!-- 姿态检测特征点 -->
+        <param name="numKpt" type = "int" value="17"/>
+        <!-- 姿态检测维度 -->
+        <param name="kptDims" type = "int" value="3"/>
+
    </node>
 </launch>
