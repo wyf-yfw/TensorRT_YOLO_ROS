@@ -117,7 +117,7 @@
         <!-- 是否启动目标跟踪 -->
         <param name="track" value="true"/>
         <!-- 是否启动深度相机 -->
-        <param name="depth" value="false"/>
+        <param name="depth" value="true"/>
         <!-- 是否启动姿态检测 -->
         <param name="pose" value="true"/>
 

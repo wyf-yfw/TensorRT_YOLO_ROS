@@ -2,7 +2,13 @@
 
 ## 更新日志
 
-### v2.1 - 2024.8.25
+### v3.0 - 2024.8.25
+
+- 大量config参数从config.cpp文件转移到launch文件当中,方便参数调整
+- 合并多个publish为一
+- 增加pose检测
+
+### v2.1 - 2024.8.22
 
 - 合并d_camera_infer_node和camera_infer_node，统一使用camera_infer_node
 - 增加depth变量
@@ -216,20 +222,43 @@ d435i相机可以直接运行launch文件
 roslaunch tensorrt_yolo d435i_yolo.launch 
 ```
 
-可以在launch文件中选择是否开启追踪
+在launch文件中调整自己的参数，需要移植可以直接将下面这部分复制到自己的launch文件当中
 
 ```xml
 <!-- 启动目标检测节点 -->
  <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
-     <!-- 是否启动目标跟踪 -->
-     <param name="track" value="false"/>
-     <!-- 是否启动深度相机 -->
-     <param name="depth" value="false"/>
+     
+      <!-- 是否启动目标跟踪 -->
+        <param name="track" value="true"/>
+        <!-- 是否启动深度相机 -->
+        <param name="depth" value="true"/>
+        <!-- 是否启动姿态检测 -->
+        <param name="pose" value="true"/>
+
+        <!-- rgb图像topic -->
+        <param name="rgbImageTopic" value="camera/color/image_raw"/>
+        <!-- depth图像订阅地址,没有则忽略 -->
+        <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
+
+        <!-- .plan文件地址 -->
+        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose-fp16.plan"/>
+        <!-- .onnx文件地址 -->
+        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose.onnx"/>
+
+        <!-- 非极大值抑制 -->
+        <param name="nmsThresh" type = "double" value="0.7"/>
+        <!-- 置信度 -->
+        <param name="confThresh" type = "double" value="0.7"/>
+
+        <!-- 目标检测类型数量 -->
+        <param name="numClass" type = "int" value="1"/>
+        <!-- 姿态检测特征点 -->
+        <param name="numKpt" type = "int" value="17"/>
+        <!-- 姿态检测维度 -->
+        <param name="kptDims" type = "int" value="3"/>
 
    </node>
 ```
-
-默认为false，可以自行选择开启
 
 ## 节点订阅数据
 
@@ -240,7 +269,7 @@ const std::string depthImageTopic = "/camera/depth/image_rect_raw"; //ros中dept
 
 ## 节点发布数据
 
-节点对外发布节点名称有两个，关闭目标追踪仅目标检测为/detect_results，开启目标追踪为/track_results，发布的内容均为一个列表，列表中的元素结构是
+节点对外publisher有一个，为infer_results，发布的内容均为一个列表，列表中的元素结构是
 
 ```cpp
 float32[4] bbox
@@ -248,7 +277,8 @@ float32 conf
 int32 classId
 float32[3] coordinate //d_camera_infer_node发布三维空间坐标，camera_infer_node发布二维坐标，z=0
 int32 Id // 关闭追踪模式默认为0，开启目标追踪为当前追踪的id值
-KeyPoint[] kpts // 用于pose检测时的关键点数组
+float32 kpts // 存储未缩放到原始图像上的关键点数据
+KeyPoint[] kpts // 存储经过缩放处理后的关键点数据，为了将关键点坐标映射回原始图像中的坐标系
 
 ```
 

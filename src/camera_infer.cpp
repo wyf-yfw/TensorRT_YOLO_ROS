@@ -34,6 +34,7 @@ YoloDetector(nh)
     nh.getParam("/yolo_node/pose", pose_);
     //订阅rgb图像话题
     nh.getParam("/yolo_node/rgbImageTopic", rgbImageTopic_);
+    // 是否使用深度相机
     if(!depth_) {
         image_sub_ = it_.subscribe(rgbImageTopic_, 1, &CameraInfer::image_callback, this);
     }else{
@@ -62,7 +63,6 @@ void CameraInfer::draw_image(cv::Mat& img){
     draw_detection_box(img,results_msg_);
     calculate_draw_center_point(img, results_msg_);
 }
-
 void CameraInfer::draw_image(cv::Mat& img, cv::Mat& depth_img){
 
     if(track_){
@@ -78,13 +78,10 @@ void CameraInfer::draw_image(cv::Mat& img, cv::Mat& depth_img){
 void CameraInfer::bytetrack()
 {
     // 需要跟踪的目标类型
-    std::vector<detect_result> objects;
-    // 用于存储结果的转换
-    std::vector<detect_result> results;
-    // result格式转换
-    yolo_detece2detect_result(results_msg_, results);
+    std::vector<tensorrt_yolo::InferResult> objects;
+
     // 判断需要跟踪的目标类型
-    for (detect_result dr : results) {
+    for (tensorrt_yolo::InferResult dr : results_msg_.results) {
         for (int tc: track_classes) {
             if (dr.classId == tc)
             {
@@ -94,25 +91,20 @@ void CameraInfer::bytetrack()
     }
     // 目标跟踪
      output_stracks_ = update(objects);
-    // 清除用于原始的results_msg_
-    results_msg_.results.clear();
 }
 void CameraInfer::image_callback(const sensor_msgs::ImageConstPtr& msg) {
     // 使用 cv_bridge 转换 ROS 图像消息到 OpenCV 图像
     cv::Mat img = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::BGR8)->image;
-    // 推理
     if (img.empty()) return;
-    if(pose_){
-        results_msg_ = inference(img, true);
-    }else{
-        results_msg_ = inference(img);
-    }
-    if(track_){
-        bytetrack();
-    }
+    // 是否开启pose检测
+    pose_ ? results_msg_ = inference(img, true) : results_msg_ = inference(img);
+    // 是否开启目标追踪
+    if(track_) bytetrack();
+    // 绘制照片
     draw_image(img);
-
+    // 发布结果
     results_pub_.publish(results_msg_);
+    // 先显示图像
     cv::imshow("imgshow", img);
     cv::waitKey(30);
 }
@@ -121,12 +113,16 @@ void CameraInfer::image_callback(const sensor_msgs::ImageConstPtr& rbg_msg, cons
     cv::Mat img = cv_bridge::toCvShare(rbg_msg, sensor_msgs::image_encodings::BGR8)->image;
     cv_bridge::CvImageConstPtr cv_ptr = cv_bridge::toCvShare(depth_msg, sensor_msgs::image_encodings::TYPE_16UC1);
     cv::Mat depth_img = cv_ptr->image;
-    // 推理
     if (img.empty()) return;
+    // 是否开启pose检测
     pose_ ? results_msg_ = inference(img, true) : results_msg_ = inference(img);
+    // 是否开启目标追踪
     if(track_) bytetrack();
+    // 绘制照片
     draw_image(img, depth_img);
+    // 发布结果
     results_pub_.publish(results_msg_);
+    // 先显示图像
     cv::imshow("imgshow", img);
     cv::waitKey(30);
 }
