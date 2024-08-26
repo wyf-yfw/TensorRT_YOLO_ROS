@@ -115,7 +115,7 @@
     <node name="yolo_node" pkg="tensorrt_yolo" type="camera_infer_node" output="screen">
 
         <!-- 是否启动目标跟踪 -->
-        <param name="track" value="true"/>
+        <param name="track" value="false"/>
         <!-- 是否启动深度相机 -->
         <param name="depth" value="false"/>
         <!-- 是否启动姿态检测 -->
