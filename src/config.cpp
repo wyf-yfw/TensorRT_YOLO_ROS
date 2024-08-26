@@ -6,6 +6,8 @@
 #include <vector>
 
 const char* imageDir = "/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/images"; // 图片文件夹
+const char* kInputTensorName = "images";
+const char* kOutputTensorName = "output0";
 
 
 const std::vector<int> track_classes = {0};
@@ -18,11 +20,11 @@ const int kInputW = 640;
 const int kMaxNumOutputBbox = 1000;  // assume the box outputs no more than kMaxNumOutputBbox boxes that conf >= kNmsThresh;
 
 // for FP16 mode
-const bool bFP16Mode = false;
+const bool bFP16Mode = true;
 
 // 目前无法进行INT8量化
 // for INT8 mode
-const bool bINT8Mode = true;
+const bool bINT8Mode = false;
 const std::string cacheFile = "./int8.cache";
 const std::string calibrationDataPath = "../calibrator";  // 存放用于 int8 量化校准的图像
 

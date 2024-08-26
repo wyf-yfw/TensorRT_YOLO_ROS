@@ -58,6 +58,7 @@ endif()
 # ============ opencv ============
 find_package(OpenCV)
 include_directories(${OpenCV_INCLUDE_DIRS})
+add_definitions("-Wall -g")
 
 # ============ yolo infer shared lib ============
 include_directories(${PROJECT_SOURCE_DIR}/include)
@@ -76,6 +77,7 @@ target_link_libraries(yolo_infer
         ${OpenCV_LIBS})
 
 # ======== main execute file ========
+add_definitions("-Wall -g")
 
 add_executable(camera_infer_node
         src/camera_infer.cpp
@@ -90,6 +92,8 @@ add_executable(camera_infer_node
         src/strack.cpp
         include/KeyPoint.h
 )
+add_definitions("-Wall -g")
+
 target_link_libraries(camera_infer_node
         yolo_infer
         ${catkin_LIBRARIES}

@@ -5,6 +5,8 @@
 #include <vector>
 #include <boost/array.hpp>
 extern const char* imageDir;
+extern const char* kInputTensorName;
+extern const char* kOutputTensorName;
 
 extern const std::vector<int> track_classes;
 

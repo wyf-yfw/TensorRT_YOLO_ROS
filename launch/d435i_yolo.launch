@@ -117,9 +117,9 @@
         <!-- 是否启动目标跟踪 -->
         <param name="track" value="true"/>
         <!-- 是否启动深度相机 -->
-        <param name="depth" value="false"/>
+        <param name="depth" value="true"/>
         <!-- 是否启动姿态检测 -->
-        <param name="pose" value="true"/>
+        <param name="pose" value="false"/>
 
         <!-- rgb图像topic -->
         <param name="rgbImageTopic" value="camera/color/image_raw"/>
@@ -127,9 +127,9 @@
         <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
 
         <!-- .plan文件地址 -->
-        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose-fp16.plan"/>
+        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-10.plan"/>
         <!-- .onnx文件地址 -->
-        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-pose.onnx"/>
+        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s.onnx"/>
 
         <!-- 非极大值抑制 -->
         <param name="nmsThresh" type = "double" value="0.7"/>

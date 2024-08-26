@@ -23,6 +23,8 @@ public:
     ros::NodeHandle&    nh_;
 private:
     void get_engine();
+    void deserialize_engine();
+    void serialize_engine();
 
 private:
 
