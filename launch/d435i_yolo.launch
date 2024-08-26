@@ -127,9 +127,9 @@
         <param name="depthImageTopic" value="/camera/depth/image_rect_raw"/>
 
         <!-- .plan文件地址 -->
-        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s-10.plan"/>
+        <param name="planFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8-10.plan"/>
         <!-- .onnx文件地址 -->
-        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8s.onnx"/>
+        <param name="onnxFile" value="/home/wyf/catkin_ws/src/TensorRT_YOLO_ROS/onnx_model/yolov8.onnx"/>
 
         <!-- 非极大值抑制 -->
         <param name="nmsThresh" type = "double" value="0.7"/>

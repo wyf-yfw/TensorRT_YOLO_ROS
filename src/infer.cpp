@@ -79,11 +79,11 @@ void YoloDetector::deserialize_engine(){
     engineFile.seekg(0, engineFile.beg);
     std::vector<char> engineString(fsize);
     engineFile.read(engineString.data(), fsize);
-    if (engineString.size() == 0) { ROS_INFO("Failed getting serialized engine!"); return;}
+    if (engineString.size() == 0) { ROS_ERROR("Failed getting serialized engine!"); return;}
     ROS_INFO("Succeeded getting serialized engine!");
     runtime = createInferRuntime(gLogger); // 创建推理运行时
     engine = runtime->deserializeCudaEngine(engineString.data(), fsize); // 反序列化引擎
-    if (engine == nullptr) { ROS_INFO("Failed loading engine!"); return; }
+    if (engine == nullptr) { ROS_ERROR("Failed loading engine!"); return; }
     ROS_INFO("Succeeded loading engine!");
 }
 void YoloDetector::serialize_engine() {
@@ -91,7 +91,6 @@ void YoloDetector::serialize_engine() {
     INetworkDefinition *  network     = builder->createNetworkV2(1U << int(NetworkDefinitionCreationFlag::kEXPLICIT_BATCH)); // 创建网络定义
     IOptimizationProfile* profile     = builder->createOptimizationProfile(); // 创建优化配置
     IBuilderConfig *      config      = builder->createBuilderConfig(); // 创建构建配置
-//    config->setMaxWorkspaceSize(1 << 30); // 设置最大工作区大小
     IInt8Calibrator *     pCalibrator = nullptr;
     config->setMemoryPoolLimit(MemoryPoolType::kWORKSPACE, 1<30);
     if (bFP16Mode){
@@ -106,7 +105,7 @@ void YoloDetector::serialize_engine() {
 
     nvonnxparser::IParser* parser = nvonnxparser::createParser(*network, gLogger); // 创建 ONNX 解析器
     if (!parser->parseFromFile(onnxFile_.c_str(), int(gLogger.reportableSeverity))){
-        ROS_INFO("Failed parsing .onnx file!");
+        ROS_ERROR("Failed parsing .onnx file!");
         for (int i = 0; i < parser->getNbErrors(); ++i){
             auto *error = parser->getError(i);
             std::cout << std::to_string(int(error->code())) << std::string(":") << std::string(error->desc()) << std::endl;
@@ -126,7 +125,7 @@ void YoloDetector::serialize_engine() {
 
     runtime = createInferRuntime(gLogger); // 创建推理运行时
     engine = runtime->deserializeCudaEngine(engineString->data(), engineString->size()); // 反序列化引擎
-    if (engine == nullptr) { ROS_INFO("Failed building engine!"); return; }
+    if (engine == nullptr) { ROS_ERROR("Failed building engine!"); return; }
     ROS_INFO("Succeeded building engine!");
 
     if (bINT8Mode && pCalibrator != nullptr){
