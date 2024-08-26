@@ -48,11 +48,12 @@
     allowfullscreen="true" 
     width="640" 
     height="480">
-</iframe>
+    </iframe>
 
 ### 目标追踪
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112989013279998&bvid=BV1NmpSeeE2o&cid=500001655010412&p=1"   scrolling="no" 
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112989013279998&bvid=BV1NmpSeeE2o&cid=500001655010412&p=1"   
+    scrolling="no" 
     border="0" 
     frameborder="no" 
     framespacing="0" 
@@ -64,7 +65,12 @@
 
 ### pose检测
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113023624675958&bvid=BV1fzWCeBEPx&cid=500001662189599&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" 
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113023624675958&bvid=BV1fzWCeBEPx&cid=500001662189599&p=1" 
+    scrolling="no" 
+    border="0" 
+    frameborder="no" 
+    framespacing="0" 
+    allowfullscreen="true" 
     width="640" 
     height="480"></iframe>
 
