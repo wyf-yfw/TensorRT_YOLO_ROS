@@ -51,7 +51,7 @@
 ## 环境
 #### 支持[TensorRT 8](https://github.com/wyf-yfw/TensorRT_YOLO_ROS/releases/tag/v12.8.1)
 
-#### 支持[TensorRT 10]()
+#### 支持[TensorRT 10](https://github.com/wyf-yfw/TensorRT_YOLO_ROS/releases/tag/v12.10.1)
 
 注意：
 
