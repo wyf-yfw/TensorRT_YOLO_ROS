@@ -2,6 +2,10 @@
 
 ## 更新日志
 
+### v3.1 -2024.8.26
+
+- 完成对TensorRT 10的兼容
+
 ### v3.0 - 2024.8.25
 
 - 大量config参数从config.cpp文件转移到launch文件当中,方便参数调整
@@ -66,20 +70,14 @@
 
 
 ## 环境
-ubuntu 20.04 + ros noetic
+#### 支持[TensorRT 8](https://github.com/wyf-yfw/TensorRT_YOLO_ROS/releases/tag/v12.8.1)
 
-opencv 4.8.0
-
-cuda 12.1 + cudnn 8.9.7
-
-TensorRT 8.6.1.6
-
-cmake 3.22.1
+#### 支持[TensorRT 10]()
 
 注意：
 
 - 运行时可能报错 段错误(核心已转储)，这是你自己的opencv版本和ros默认的版本造成冲突导致的，删除自己的版本使用ros默认的opencv即可解决报错
-- 目前仅支持TensorRT 8，使用10会报错
+- ~~目前仅支持TensorRT 8，使用10会报错~~
 
 ## 文件结构
 
