@@ -38,13 +38,13 @@
 
 ## 实现效果
 
-### [目标检测](https://www.bilibili.com/video/BV1Niv9erEuw/?spm_id_from=333.999.0.0)
+### [目标检测](https://www.bilibili.com/video/BV1Niv9erEuw/?spm_id_from=333.788.recommend_more_video.0&vd_source=bb696fabd15eaa2a7c74687a5ff42a1b)
 
 
-### [目标追踪](https://www.bilibili.com/video/BV1NmpSeeE2o/?spm_id_from=333.999.0.0)
+### [目标追踪](https://www.bilibili.com/video/BV1NmpSeeE2o/?spm_id_from=333.788.recommend_more_video.1&vd_source=bb696fabd15eaa2a7c74687a5ff42a1b)
 
 
-### [pose检测](https://www.bilibili.com/video/BV1fzWCeBEPx/?spm_id_from=333.999.0.0)
+### [pose检测](https://www.bilibili.com/video/BV1fzWCeBEPx/?vd_source=bb696fabd15eaa2a7c74687a5ff42a1b)
 
 
 
