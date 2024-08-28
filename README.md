@@ -1,6 +1,11 @@
-# YOLOv8 目标检测模型通过 TensorRT部署
+# ROS1中通过 TensorRT部署YOLOv8 目标检测模型
 
 ## 更新日志
+
+### v4.0 -2024.8.27
+
+- [完成ros2的兼容](https://github.com/wyf-yfw/TensorRT_YOLO_ROS2)
+- 分离msg和主函数部分
 
 ### v3.1 -2024.8.26
 
