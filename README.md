@@ -58,6 +58,8 @@
 
 #### 支持[TensorRT 10](https://github.com/wyf-yfw/TensorRT_YOLO_ROS/releases/tag/v12.10.1)
 
+#### [ROS2仓库](https://github.com/wyf-yfw/TensorRT_YOLO_ROS2)
+
 注意：
 
 - 运行时可能报错 段错误(核心已转储)，这是你自己的opencv版本和ros默认的版本造成冲突导致的，删除自己的版本使用ros默认的opencv即可解决报错
